@@ -76,7 +76,7 @@ public class SecurityDetail implements Transaction{
                 "CO_ID = CP_COMP_CO_ID and " +
                 "IN_ID = CP_IN_ID ";
         String query3 = ROLE + "," +
-                "select first max_fin_len rows " +
+                "select " +
                 "FI_YEAR, " +
                 "FI_QTR, " +
                 "FI_QTR_START_DATE, " +

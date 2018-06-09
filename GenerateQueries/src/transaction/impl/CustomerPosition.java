@@ -69,11 +69,11 @@ public class CustomerPosition implements Transaction {
     private void frameTwo(){
         String query = ROLE + "," +
                 "select " +
-                "trade_id[] = T_ID, " +
-                "symbol[] = T_S_SYMB, " +
-                "qty[] = T_QTY, " +
-                "trade_status[] = ST_NAME, " +
-                "hist_dts[] = TH_DTS " +
+                "T_ID, " +
+                "T_S_SYMB, " +
+                "T_QTY, " +
+                "ST_NAME, " +
+                "TH_DTS " +
                 "from " +
                 "(select first 10 rows " +
                 "T_ID as ID " +

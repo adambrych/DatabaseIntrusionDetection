@@ -42,6 +42,13 @@
     <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="0269E1D4CD6E03ECF5705F2C6429FE25" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/GenerateQueries/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

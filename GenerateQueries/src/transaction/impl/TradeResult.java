@@ -3,13 +3,16 @@ package transaction.impl;
 import transaction.Transaction;
 
 public class TradeResult implements Transaction {
+
+    private static final String ROLE = "8";
+
     @Override
     public void generateTransaction() {
 
     }
 
     private void frame1(){
-        String query = "select\n" +
+        String query =  ROLE + "," +"select\n" +
                 "T_CA_ID,\n" +
                 "T_TT_ID,\n" +
                 "T_S_SYMB,\n" +
@@ -23,7 +26,7 @@ public class TradeResult implements Transaction {
                 "T_ID = \n" +
                 "num_found = \n";
 
-                String query2 = "select\n" +
+                String query2 =  ROLE + "," +"select\n" +
                 "TT_NAME,\n" +
                 "TT_IS_SELL,\n" +
                 "TT_IS_MRKT\n" +
@@ -32,7 +35,7 @@ public class TradeResult implements Transaction {
                 "where\n" +
                 "TT_ID = \n";
 
-                String query3 = "select\n" +
+                String query3 =  ROLE + "," +"select\n" +
                 "HS_QTY\n" +
                 "from\n" +
                 "HOLDING_SUMMARY\n" +
@@ -42,7 +45,7 @@ public class TradeResult implements Transaction {
     }
 
     private void frame2(){
-        String query1 = "select\n" +
+        String query1 =  ROLE + "," +"select\n" +
                 "CA_B_ID,\n" +
                 "CA_C_ID,\n" +
                 "CA_TAX_ST\n" +
@@ -51,7 +54,7 @@ public class TradeResult implements Transaction {
                 "where\n" +
                 "CA_ID = \n";
 
-                String query2 = "insert into\n" +
+                String query2 =  ROLE + "," +"insert into\n" +
                 "HOLDING_SUMMARY (\n" +
                 "HS_CA_ID,\n" +
                 "HS_S_SYMB,\n" +
@@ -63,7 +66,7 @@ public class TradeResult implements Transaction {
                 "trade_qty\n" +
                 ")\n";
 
-                String query3 = "update\n" +
+                String query3 =  ROLE + "," +"update\n" +
                 "HOLDING_SUMMARY\n" +
                 "set\n" +
                 "HS_QTY = hs_qty – trade_qty\n" +
@@ -71,7 +74,7 @@ public class TradeResult implements Transaction {
                 "HS_CA_ID =  and\n" +
                 "HS_S_SYMB = \n";
 
-                String query4 = "select\n" +
+                String query4 =  ROLE + "," +"select\n" +
                 "H_T_ID,\n" +
                 "H_QTY,\n" +
                 "H_PRICE\n" +
@@ -83,7 +86,7 @@ public class TradeResult implements Transaction {
                 "order by\n" +
                 "H_DTS desc\n";
 
-                String query5 = "select\n" +
+                String query5 =  ROLE + "," +"select\n" +
                 "H_T_ID,\n" +
                 "H_QTY,\n" +
                 "H_PRICE\n" +
@@ -95,7 +98,7 @@ public class TradeResult implements Transaction {
                 "order by\n" +
                 "H_DTS asc\n";
 
-                String query6 = "insert into\n" +
+                String query6 =  ROLE + "," +"insert into\n" +
                 "HOLDING_HISTORY (\n" +
                 "HH_H_T_ID,\n" +
                 "HH_T_ID,\n" +
@@ -109,7 +112,7 @@ public class TradeResult implements Transaction {
                 "hold_qty - needed_qty\n" +
                 ")\n";
 
-                String query7 = "update\n" +
+                String query7 =  ROLE + "," +"update\n" +
                 "HOLDING\n" +
                 "set\n" +
                 "H_QTY = hold_qty - needed_qty\n" +
@@ -118,7 +121,7 @@ public class TradeResult implements Transaction {
                 "sell_value += needed_qty * trade_price\n" +
                 "needed_qty = 0\n";
 
-                String query8 = "insert into\n" +
+                String query8 =  ROLE + "," +"insert into\n" +
                 "HOLDING_HISTORY (\n" +
                 "HH_H_T_ID,\n" +
                 "HH_T_ID,\n" +
@@ -132,7 +135,7 @@ public class TradeResult implements Transaction {
                 "0\n" +
                 ")\n";
 
-                String query9 = "delete from\n" +
+                String query9 =  ROLE + "," +"delete from\n" +
                 "HOLDING\n" +
                 "where\n" +
                 "current of hold_list\n" +
@@ -144,7 +147,7 @@ public class TradeResult implements Transaction {
                 "(-1) * needed_qty\n" +
                 ")\n";
 
-                String query10 = "insert into\n" +
+                String query10 =  ROLE + "," +"insert into\n" +
                 "HOLDING (\n" +
                 "H_T_ID,\n" +
                 "H_CA_ID,\n" +
@@ -162,14 +165,14 @@ public class TradeResult implements Transaction {
                 "(-1) * needed_qty\n" +
                 ")\n";
 
-                String query11 = "delete from\n" +
+                String query11 =  ROLE + "," +"delete from\n" +
                 "HOLDING_SUMMARY\n" +
                 "where\n" +
                 "HS_CA_ID = acct_id and\n" +
                 "HS_S_SYMB = symbol\n" +
                 "}\n";
 
-                String query12 = "insert into\n" +
+                String query12 =  ROLE + "," +"insert into\n" +
                 "HOLDING_SUMMARY (\n" +
                 "HS_CA_ID,\n" +
                 "HS_S_SYMB,\n" +
@@ -181,7 +184,7 @@ public class TradeResult implements Transaction {
                 "trade_qty\n" +
                 ")\n";
 
-                String query13 = "update\n" +
+                String query13 =  ROLE + "," +"update\n" +
                 "HOLDING_SUMMARY\n" +
                 "set\n" +
                 "HS_QTY = hs_qty + trade_qty\n" +
@@ -189,7 +192,7 @@ public class TradeResult implements Transaction {
                 "HS_CA_ID = acct_id and\n" +
                 "HS_S_SYMB = symbol\n";
 
-                String query14 = "select\n" +
+                String query14 =  ROLE + "," +"select\n" +
                 "H_T_ID,\n" +
                 "H_QTY,\n" +
                 "H_PRICE\n" +
@@ -201,7 +204,7 @@ public class TradeResult implements Transaction {
                 "order by\n" +
                 "H_DTS desc\n";
 
-                String query15 = "select\n" +
+                String query15 =  ROLE + "," +"select\n" +
                 "H_T_ID,\n" +
                 "H_QTY,\n" +
                 "H_PRICE\n" +
@@ -213,7 +216,7 @@ public class TradeResult implements Transaction {
                 "order by\n" +
                 "H_DTS asc\n";
 
-                String query16 = "insert into\n" +
+                String query16 =  ROLE + "," +"insert into\n" +
                 "HOLDING_HISTORY (\n" +
                 "HH_H_T_ID,\n" +
                 "HH_T_ID,\n" +
@@ -224,7 +227,6 @@ public class TradeResult implements Transaction {
                 "hold_id,\n" +
                 "trade_id,\n" +
                 "hold_qty,\n" +
-                "hold_qty + needed_qty // H_QTY after update\n" +
                 ")\n" +
                 "update\n" +
                 "HOLDING\n" +
@@ -235,7 +237,7 @@ public class TradeResult implements Transaction {
                 "buy_value += needed_qty * trade_price\n" +
                 "needed_qty = 0\n";
 
-                String query17 = "insert into\n" +
+                String query17 =  ROLE + "," +"insert into\n" +
                 "HOLDING_HISTORY (\n" +
                 "HH_H_T_ID,\n" +
                 "HH_T_ID,\n" +
@@ -249,7 +251,7 @@ public class TradeResult implements Transaction {
                 "0\n" +
                 ")\n";
 
-                String query18 = "delete from\n" +
+                String query18 =  ROLE + "," +"delete from\n" +
                 "HOLDING\n" +
                 "where\n" +
                 "hold_qty = -hold_qty\n" +
@@ -257,7 +259,7 @@ public class TradeResult implements Transaction {
                 "buy_value += hold_qty * trade_price\n" +
                 "needed_qty = needed_qty - hold_qty\n";
 
-                String query19 = "insert into\n" +
+                String query19 =  ROLE + "," +"insert into\n" +
                 "HOLDING_HISTORY (\n" +
                 "HH_H_T_ID,\n" +
                 "HH_T_ID,\n" +
@@ -271,7 +273,7 @@ public class TradeResult implements Transaction {
                 "needed_qty\n" +
                 ")\n";
 
-                String query20 = "insert into\n" +
+                String query20 =  ROLE + "," +"insert into\n" +
                 "HOLDING (\n" +
                 "H_T_ID,\n" +
                 "H_CA_ID,\n" +
@@ -289,7 +291,7 @@ public class TradeResult implements Transaction {
                 "needed_qty\n" +
                 ")\n";
 
-                String query21 = "delete from\n" +
+                String query21 =  ROLE + "," +"delete from\n" +
                 "HOLDING_SUMMARY\n" +
                 "where\n" +
                 "HS_CA_ID =  and\n" +
@@ -297,7 +299,7 @@ public class TradeResult implements Transaction {
     }
 
     private void frame3(){
-        String query="select\n" +
+        String query= ROLE + "," +"select\n" +
                 "sum(TX_RATE)\n" +
                 "from\n" +
                 "TAXRATE\n" +
@@ -309,7 +311,7 @@ public class TradeResult implements Transaction {
                 "where\n" +
                 "CX_C_ID = )";
 
-        String query2="update\n" +
+        String query2= ROLE + "," +"update\n" +
                 "TRADE\n" +
                 "set\n" +
                 "T_TAX = \n" +
@@ -389,16 +391,16 @@ public class TradeResult implements Transaction {
                 "cash_type,\n" +
                 "due_date,\n" +
                 "se_amount\n" +
-                ")\n" +
+                ")\n";
 
-                "update\n" +
+        String query2="update\n" +
                 "CUSTOMER_ACCOUNT\n" +
                 "set\n" +
                 "CA_BAL = CA_BAL + se_amount\n" +
                 "where\n" +
-                "CA_ID = acct_id\n" +
+                "CA_ID = acct_id\n";
 
-                "insert into\n" +
+        String query3="insert into\n" +
                 "CASH_TRANSACTION (\n" +
                 "CT_DTS,\n" +
                 "CT_T_ID,\n" +
@@ -410,9 +412,8 @@ public class TradeResult implements Transaction {
                 "trade_id,\n" +
                 "se_amount,\n" +
                 "type_name" +
-                ")\n" +
-
-                "select\n" +
+                ")\n";
+        String query4="select\n" +
                 "CA_BAL\n" +
                 "from\n" +
                 "CUSTOMER_ACCOUNT\n" +

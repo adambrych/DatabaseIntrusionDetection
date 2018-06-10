@@ -3,13 +3,16 @@ package transaction.impl;
 import transaction.Transaction;
 
 public class TradeStatus implements Transaction {
+
+    private static final String ROLE = "9";
+
     @Override
     public void generateTransaction() {
 
     }
 
     private void frame1(){
-        String query1 = "select\n" +
+        String query1 = ROLE + "," +"select\n" +
                 "T_ID,\n" +
                 "T_DTS,\n" +
                 "ST_NAME,\n" +
@@ -35,7 +38,7 @@ public class TradeStatus implements Transaction {
                 "order by\n" +
                 "T_DTS desc\n";
 
-                String query2 = "select\n" +
+                String query2 = ROLE + "," +"select\n" +
                 "C_L_NAME,\n" +
                 "C_F_NAME,\n" +
                 "B_NAME\n" +

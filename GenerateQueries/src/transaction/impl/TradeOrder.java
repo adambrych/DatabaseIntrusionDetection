@@ -3,13 +3,16 @@ package transaction.impl;
 import transaction.Transaction;
 
 public class TradeOrder implements Transaction {
+
+    private static final String ROLE = "7";
+
     @Override
     public void generateTransaction() {
 
     }
 
     private void frameOne(){
-        String query1 = "select\n" +
+        String query1 = ROLE + "," +"select\n" +
                 "CA_NAME,\n" +
                 "CA_B_ID,\n" +
                 "CA_C_ID,\n" +
@@ -19,7 +22,7 @@ public class TradeOrder implements Transaction {
                 "where\n" +
                 "CA_ID = ";
 
-        String query2 = "select\n" +
+        String query2 = ROLE + "," +"select\n" +
                 "C_F_NAME,\n" +
                 "C_L_NAME,\n" +
                 "C_TIER,\n" +
@@ -29,7 +32,7 @@ public class TradeOrder implements Transaction {
                 "where\n" +
                 "C_ID = \n";
 
-        String query3 = "select\n" +
+        String query3 = ROLE + "," +"select\n" +
                 "B_NAME\n" +
                 "from\n" +
                 "BROKER\n" +
@@ -38,7 +41,7 @@ public class TradeOrder implements Transaction {
     }
 
     private void frameTwo(){
-        String query = "select\n" +
+        String query = ROLE + "," +"select\n" +
                 "AP_ACL\n" +
                 "from\n" +
                 "ACCOUNT_PERMISSION\n" +
@@ -50,14 +53,14 @@ public class TradeOrder implements Transaction {
     }
 
     private void frameThree(){
-        String query1 = "select\n" +
+        String query1 = ROLE + "," +"select\n" +
                 "co_id = CO_ID\n" +
                 "from\n" +
                 "COMPANY\n" +
                 "where\n" +
                 "CO_NAME = co_name\n";
 
-        String query2 = "select\n" +
+        String query2 = ROLE + "," +"select\n" +
                 "exch_id = S_EX_ID,\n" +
                 "s_name = S_NAME,\n" +
                 "symbol = S_SYMB\n" +
@@ -67,7 +70,7 @@ public class TradeOrder implements Transaction {
                 "S_CO_ID =  and\n" +
                 "S_ISSUE = issue\n";
 
-        String query3 = "select\n" +
+        String query3 = ROLE + "," +"select\n" +
                 "co_id = S_CO_ID,\n" +
                 "exch_id = S_EX_ID,\n" +
                 "s_name = S_NAME\n" +
@@ -76,21 +79,21 @@ public class TradeOrder implements Transaction {
                 "where\n" +
                 "S_SYMB = symbol\n";
 
-        String query4 = "select\n" +
+        String query4 = ROLE + "," +"select\n" +
                 "co_name = CO_NAME\n" +
                 "from\n" +
                 "COMPANY\n" +
                 "where\n" +
                 "CO_ID = co_id\n";
 
-        String query5 = "select\n" +
+        String query5 = ROLE + "," +"select\n" +
                 "market_price = LT_PRICE\n" +
                 "from\n" +
                 "LAST_TRADE\n" +
                 "where\n" +
                 "LT_S_SYMB = symbol\n";
 
-        String query6 = "select\n" +
+        String query6 = ROLE + "," +"select\n" +
                 "type_is_market = TT_IS_MRKT,\n" +
                 "type_is_sell = TT_IS_SELL\n" +
                 "from\n" +
@@ -98,7 +101,7 @@ public class TradeOrder implements Transaction {
                 "where\n" +
                 "TT_ID = trade_type_id\n";
 
-        String query7 = "select\n" +
+        String query7 = ROLE + "," +"select\n" +
                 "hs_qty = HS_QTY\n" +
                 "from\n" +
                 "HOLDING_SUMMARY\n" +
@@ -106,7 +109,7 @@ public class TradeOrder implements Transaction {
                 "HS_CA_ID = acct_id and\n" +
                 "HS_S_SYMB = symbol\n";
 
-        String query8 = "select\n" +
+        String query8 = ROLE + "," +"select\n" +
                 "H_QTY,\n" +
                 "H_PRICE\n" +
                 "from\n" +
@@ -117,7 +120,7 @@ public class TradeOrder implements Transaction {
                 "order by\n" +
                 "H_DTS desc\n";
 
-        String query9 = "select\n" +
+        String query9 = ROLE + "," +"select\n" +
                 "H_QTY,\n" +
                 "H_PRICE\n" +
                 "from\n" +
@@ -128,7 +131,7 @@ public class TradeOrder implements Transaction {
                 "order by\n" +
                 "H_DTS asc\n";
 
-        String query10 = "Declare tax_rates S_PRICE_T\n" +
+        String query10 = ROLE + "," +
                 "select\n" +
                 "tax_rates = sum(TX_RATE)\n" +
                 "from\n" +
@@ -136,7 +139,7 @@ public class TradeOrder implements Transaction {
                 "where\n" +
                 "TX_ID in (\n";
 
-        String query11 = "select\n" +
+        String query11 = ROLE + "," +"select\n" +
                 "CX_TX_ID\n" +
                 "from\n" +
                 "CUSTOMER_TAXRATE\n"+
@@ -145,7 +148,7 @@ public class TradeOrder implements Transaction {
                 "tax_amount = (sell_value – buy_value) * tax_rates\n" +
                 "}\n";
 
-        String query12 = "select\n" +
+        String query12 = ROLE + "," +"select\n" +
                 "comm_rate = CR_RATE\n" +
                 "from\n" +
                 "COMMISSION_RATE\n" +
@@ -156,7 +159,7 @@ public class TradeOrder implements Transaction {
                 "CR_FROM_QTY <= trade_qty and\n" +
                 "CR_TO_QTY >= trade_qty\n" ;
 
-        String query13 = "select\n" +
+        String query13 = ROLE + "," +"select\n" +
                 "charge_amount = CH_CHRG\n" +
                 "from\n" +
                 "CHARGE\n" +
@@ -164,14 +167,14 @@ public class TradeOrder implements Transaction {
                 "CH_C_TIER = cust_tier and\n" +
                 "CH_TT_ID = trade_type_id\n" ;
 
-        String query14 = "select\n" +
+        String query14 = ROLE + "," +"select\n" +
                 "acct_bal = CA_BAL\n" +
                 "from\n" +
                 "CUSTOMER_ACCOUNT\n" +
                 "where\n" +
                 "CA_ID = acct_id\n";
 
-        String query15 = "select\n" +
+        String query15 = ROLE + "," +"select\n" +
                 "hold_assets = sum(HS_QTY * LT_PRICE)\n" +
                 "from\n" +
                 "HOLDING_SUMMARY,\n" +
@@ -182,7 +185,7 @@ public class TradeOrder implements Transaction {
     }
 
     private void frame4(){
-        String query = "insert into\n" +
+        String query = ROLE + "," +"insert into\n" +
                 "TRADE (\n" +
                 "T_ID, T_DTS, T_ST_ID, T_TT_ID, T_IS_CASH,\n" +
                 "T_S_SYMB, T_QTY, T_BID_PRICE, T_CA_ID, T_EXEC_NAME,\n" +
@@ -204,9 +207,9 @@ public class TradeOrder implements Transaction {
                 "comm_amount\n" +
                 "0,\n" +
                 "is_lifo\n" +
-                ")\n" +
+                ")\n";
 
-                "insert into\n" +
+                String query2 = ROLE + "," +"insert into\n" +
                 "TRADE_REQUEST (\n" +
                 "TR_T_ID, TR_TT_ID, TR_S_SYMB,\n" +
                 "TR_QTY, TR_BID_PRICE, TR_B_ID\n" +
@@ -218,10 +221,9 @@ public class TradeOrder implements Transaction {
                 "trade_qty,\n" +
                 "requested_price,\n" +
                 "broker_id\n" +
-                ")\n" +
-                "}\n" +
+                ")\n";
 
-                "insert into\n" +
+                String query3 = ROLE + "," +"insert into\n" +
                 "TRADE_HISTORY (\n" +
                 "TH_T_ID, TH_DTS, TH_ST_ID\n" +
                 ")\n" +

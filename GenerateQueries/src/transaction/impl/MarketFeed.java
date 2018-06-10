@@ -1,26 +1,27 @@
 package transaction.impl;
 
 import transaction.Transaction;
+import values.ColumnValue;
 
 public class MarketFeed implements Transaction {
 
     private static final String ROLE = "3";
 
     @Override
-    public void generateTransaction() {
-
+    public String generateTransaction() {
+        return frameOne();
     }
 
-    private void frameOne(){
+    private String frameOne(){
         String query = ROLE + "," +
                 "update " +
                 "LAST_TRADE " +
                 "set " +
-                "LT_PRICE = price_quote[i], " +
-                "LT_VOL = LT_VOL + trade_qty[i], " +
-                "LT_DTS = now_dts " +
+                "LT_PRICE = " + ColumnValue.getValue("LT_PRICE") + ", " +
+                "LT_VOL = LT_VOL + " + ColumnValue.getValue("LT_VOL") + ", " +
+                "LT_DTS = " + ColumnValue.getValue("LT_DTS") + " " +
                 "where " +
-                "LT_S_SYMB = symbol[i]";
+                "LT_S_SYMB = " + ColumnValue.getValue("LT_S_SYMB");
 
         String query2 = ROLE + "," +
                 "select " +
@@ -31,21 +32,32 @@ public class MarketFeed implements Transaction {
                 "from " +
                 "TRADE_REQUEST " +
                 "where " +
-                "TR_S_SYMB = symbol[i] and ( " +
-                "(TR_TT_ID = type_stop_loss and " +
-                "TR_BID_PRICE >= price_quote[i]) or " +
-                "(TR_TT_ID = type_limit_sell and " +
-                "TR_BID_PRICE <= price_quote[i]) or " +
-                "(TR_TT_ID = type_limit_buy and " +
-                "TR_BID_PRICE >= price_quote[i]) " +
+                "TR_S_SYMB = " + ColumnValue.getValue("TR_S_SYMB") +
+                " and ( " +
+                "(TR_TT_ID =  " + ColumnValue.getValue("TR_TT_ID") +
+                " and " +
+                "TR_BID_PRICE >= " + ColumnValue.getValue("TR_BID_PRICE")+
+                " or " +
+                "(TR_TT_ID = " + ColumnValue.getValue("TR_TT_ID")+
+                " and " +
+                "TR_BID_PRICE <= " + ColumnValue.getValue("TR_BID_PRICE")+
+                " or " +
+                "(TR_TT_ID = " + ColumnValue.getValue("TR_TT_ID")+
+                " and " +
+                "TR_BID_PRICE >= " + ColumnValue.getValue("TR_BID_PRICE")+
+                ") " +
                 ")";
         String query3 = ROLE + "," +
                 "insert into " +
                 "TRADE_HISTORY " +
                 "values ( " +
-                "TH_T_ID = req_trade_id, " +
-                "TH_DTS = now_dts, " +
-                "TH_ST_ID = status_submitted " +
+                "TH_T_ID = " + ColumnValue.getValue("TH_T_ID") + ", " +
+                "TH_DTS = " + ColumnValue.getValue("TH_DTS") + ", " +
+                "TH_ST_ID = " + ColumnValue.getValue("TH_ST_ID") + " " +
                 ")";
+
+        return query + System.lineSeparator() +
+                query2 + System.lineSeparator() +
+                query3 + System.lineSeparator();
     }
 }

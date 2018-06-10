@@ -1,17 +1,18 @@
 package transaction.impl;
 
 import transaction.Transaction;
+import values.ColumnValue;
 
 public class TradeLookUp implements Transaction {
 
     private static final String ROLE = "6";
 
     @Override
-    public void generateTransaction() {
-
+    public String generateTransaction() {
+        return frameOne() + frameTwo() + frameThree() + frameFour();
     }
 
-    private void frameOne(){
+    private String frameOne(){
         String query = ROLE + "," +
                 "select " +
                 "T_BID_PRICE, " +
@@ -23,8 +24,9 @@ public class TradeLookUp implements Transaction {
                 "TRADE, " +
                 "TRADE_TYPE " +
                 "where " +
-                "T_ID = trade_id[i] and " +
-                "T_TT_ID = TT_ID ";
+                "T_ID = " + ColumnValue.getValue("T_ID") +
+                " and " +
+                "T_TT_ID = TT_ID";
         String query2 = ROLE + "," +
                 "select " +
                 "SE_AMT, " +
@@ -33,7 +35,7 @@ public class TradeLookUp implements Transaction {
                 "from " +
                 "SETTLEMENT " +
                 "where " +
-                "SE_T_ID = trade_id[i] ";
+                "SE_T_ID = " + ColumnValue.getValue("SE_T_ID");
         String query3 = ROLE + "," +
                 "select " +
                 "CT_AMT," +
@@ -42,10 +44,14 @@ public class TradeLookUp implements Transaction {
                 "from " +
                 "CASH_TRANSACTION " +
                 "where " +
-                "CT_T_ID = trade_id[i] ";
+                "CT_T_ID = " + ColumnValue.getValue("CT_T_ID");
+
+        return query + System.lineSeparator() +
+                query2 + System.lineSeparator() +
+                query3 + System.lineSeparator();
     }
 
-    private void frameTwo(){
+    private String frameTwo(){
         String query1 = ROLE + "," +
                 "select first max_trades rows " +
                 "T_BID_PRICE, " +
@@ -56,9 +62,12 @@ public class TradeLookUp implements Transaction {
                 "from " +
                 "TRADE " +
                 "where " +
-                "T_CA_ID = acct_id and " +
-                "T_DTS >= start_trade_dts and " +
-                "T_DTS <= end_trade_dts " +
+                "T_CA_ID = " + ColumnValue.getValue("CT_T_ID") +
+                " and " +
+                "T_DTS >= " + ColumnValue.getValue("T_DTS") +
+                " and " +
+                "T_DTS <= " + ColumnValue.getValue("T_DTS") +
+                " " +
                 "order by " +
                 "T_DTS asc LIMIT 1";
         String query2 = ROLE + "," +
@@ -69,10 +78,13 @@ public class TradeLookUp implements Transaction {
                 "from " +
                 "SETTLEMENT " +
                 "where " +
-                "SE_T_ID = trade_list[i]";
+                "SE_T_ID = " + ColumnValue.getValue("SE_T_ID");
+
+        return query1 + System.lineSeparator() +
+                query2 + System.lineSeparator();
     }
 
-    private void frameThree(){
+    private String frameThree(){
         String query1 = ROLE + "," +
                 "select first max_trades rows " +
                 "T_CA_ID, " +
@@ -86,16 +98,21 @@ public class TradeLookUp implements Transaction {
                 "from " +
                 "TRADE " +
                 "where " +
-                "T_S_SYMB = symbol and " +
-                "T_DTS >= start_trade_dts and " +
-                "T_DTS <= end_trade_dts "+
+                "T_S_SYMB = " + ColumnValue.getValue("T_S_SYMB") +
+                " and " +
+                "T_DTS >= " + ColumnValue.getValue("T_DTS") +
+                " and " +
+                "T_DTS <= " + ColumnValue.getValue("T_DTS") +
+                " "+
                 "order by " +
                 "T_DTS asc";
+
+        return query1 + System.lineSeparator();
     }
 
-    private void frameFour(){
+    private String frameFour(){
         String query1 = ROLE + "," +
-                "select first 20 rows " +
+                "select " +
                 "HH_H_T_ID, " +
                 "HH_T_ID, " +
                 "HH_BEFORE_QTY, " +
@@ -109,6 +126,9 @@ public class TradeLookUp implements Transaction {
                 "from " +
                 "HOLDING_HISTORY " +
                 "where " +
-                "HH_T_ID = trade_id)";
+                "HH_T_ID = " + ColumnValue.getValue("HH_T_ID") +
+                ")";
+
+        return  query1 + System.lineSeparator();
     }
 }

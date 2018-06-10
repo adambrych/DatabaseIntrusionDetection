@@ -1,24 +1,25 @@
 package transaction.impl;
 
 import transaction.Transaction;
+import values.ColumnValue;
 
 public class CustomerPosition implements Transaction {
 
     private static final String ROLE = "2";
 
     @Override
-    public void generateTransaction() {
-
+    public String generateTransaction() {
+        return frameOne() + frameTwo();
     }
 
-    private void frameOne(){
+    private String frameOne(){
         String query1 = ROLE + "," +
                 "select " +
                 "C_ID " +
                 "from " +
                 "CUSTOMER " +
                 "where " +
-                "C_TAX_ID = tax_id";
+                "C_TAX_ID = "+ ColumnValue.getValue("C_TAX_ID");
         String query2 = ROLE + "," +
                 "select " +
                 "C_ST_ID, " +
@@ -46,27 +47,29 @@ public class CustomerPosition implements Transaction {
                 "from " +
                 "CUSTOMER " +
                 "where " +
-                "C_ID = cust_id ";
+                "C_ID = "+ ColumnValue.getValue("C_ID");
 
         String query3 = ROLE + "," +
                 "select" +
                 "CA_ID, " +
                 "CA_BAL, " +
-                "ifnull((sum(HS_QTY * LT_PRICE)),0) " +
+                "SUM(HS_QTY * LT_PRICE) " +
                 "from " +
                 "CUSTOMER_ACCOUNT left outer join " +
                 "HOLDING_SUMMARY on HS_CA_ID = CA_ID, " +
                 "LAST_TRADE " +
                 "where " +
-                "CA_C_ID = cust_id and " +
+                "CA_C_ID = " + ColumnValue.getValue("CA_C_ID") + " and " +
                 "LT_S_SYMB = HS_S_SYMB " +
                 "group by " +
                 "CA_ID, CA_BAL " +
                 "order by " +
                 "3 asc";
+
+        return query1 + System.lineSeparator() + query2 + System.lineSeparator() + query3 + System.lineSeparator();
     }
 
-    private void frameTwo(){
+    private String frameTwo(){
         String query = ROLE + "," +
                 "select " +
                 "T_ID, " +
@@ -75,12 +78,12 @@ public class CustomerPosition implements Transaction {
                 "ST_NAME, " +
                 "TH_DTS " +
                 "from " +
-                "(select first 10 rows " +
+                "(select " +
                 "T_ID as ID " +
                 "from " +
-                "TRADE"+
+                "TRADE "+
                 "where " +
-                "T_CA_ID = acct_id " +
+                "T_CA_ID = " + ColumnValue.getValue("T_CA_ID") + " " +
                 "order by T_DTS desc LIMIT 0, 10) as T, " +
                 "TRADE, " +
                 "TRADE_HISTORY, " +
@@ -92,5 +95,7 @@ public class CustomerPosition implements Transaction {
                 "order by " +
                 "TH_DTS desc "+
                 "LIMIT 0, 30";
+
+        return query + System.lineSeparator();
     }
 }

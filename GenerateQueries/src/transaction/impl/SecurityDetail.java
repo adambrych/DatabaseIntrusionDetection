@@ -1,17 +1,18 @@
 package transaction.impl;
 
 import transaction.Transaction;
+import values.ColumnValue;
 
 public class SecurityDetail implements Transaction{
 
     private static final String ROLE = "5";
 
     @Override
-    public void generateTransaction() {
-
+    public String generateTransaction() {
+        return frameOne();
     }
 
-    private void frameOne(){
+    private String frameOne(){
         String query = ROLE + "," +
                 "select " +
                 "S_NAME, " +
@@ -58,13 +59,12 @@ public class SecurityDetail implements Transaction{
                 "ZIP_CODE ZEA, " +
                 "EXCHANGE " +
                 "where " +
-                "S_SYMB = symbol and " +
+                "S_SYMB = " + ColumnValue.getValue("S_SYMB") +
+                " and " +
                 "CO_ID = S_CO_ID and " +
                 "CA.AD_ID = CO_AD_ID and " +
                 "EA.AD_ID = EX_AD_ID and " +
-                "EX_ID = S_EX_ID and " +
-                "ca.ad_zc_code = zca.zc_code and " +
-                "ea.ad_zc_code =zea.zc_code";
+                "EX_ID = S_EX_ID";
         String query2 = ROLE + "," +
                 "select " +
                 "CO_NAME, " +
@@ -72,9 +72,10 @@ public class SecurityDetail implements Transaction{
                 "from " +
                 "COMPANY_COMPETITOR, COMPANY, INDUSTRY " +
                 "where " +
-                "CP_CO_ID = co_id and " +
+                "CP_CO_ID = " + ColumnValue.getValue("S_SYMB") +
+                " and " +
                 "CO_ID = CP_COMP_CO_ID and " +
-                "IN_ID = CP_IN_ID ";
+                "IN_ID = CP_IN_ID";
         String query3 = ROLE + "," +
                 "select " +
                 "FI_YEAR, " +
@@ -93,9 +94,13 @@ public class SecurityDetail implements Transaction{
                 "from " +
                 "FINANCIAL " +
                 "where " +
-                "FI_CO_ID = co_id " +
+                "FI_CO_ID = " + ColumnValue.getValue("FI_CO_ID") + " " +
                 "order by " +
                 "FI_YEAR asc, " +
                 "FI_QTR";
+
+        return query + System.lineSeparator() +
+                query2 + System.lineSeparator() +
+                query3 + System.lineSeparator();
     }
 }

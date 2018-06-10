@@ -1,5 +1,5 @@
 package transaction;
 
 public interface Transaction {
-    void generateTransaction();
+    String generateTransaction();
 }

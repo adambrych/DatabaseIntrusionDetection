@@ -7,11 +7,11 @@ public class MarketWatch implements Transaction {
     private static final String ROLE = "4";
 
     @Override
-    public void generateTransaction() {
-
+    public String generateTransaction() {
+        return frameOne();
     }
 
-    private void frameOne(){
+    private String frameOne(){
         String query = ROLE + "," +
                 "select " +
                 "WI_S_SYMB " +
@@ -49,7 +49,7 @@ public class MarketWatch implements Transaction {
                 "from " +
                 "LAST_TRADE " +
                 "where " +
-                "LT_S_SYMB = symbol ";
+                "LT_S_SYMB = symbol";
 
          String query5 = ROLE + "," +
                  "select " +
@@ -67,5 +67,12 @@ public class MarketWatch implements Transaction {
                 "where " +
                 "DM_S_SYMB = symbol and " +
                 "DM_DATE = start_date";
+
+        return query + System.lineSeparator() +
+                query2 + System.lineSeparator() +
+                query3 + System.lineSeparator() +
+                query4 + System.lineSeparator() +
+                query5 + System.lineSeparator() +
+                query6 + System.lineSeparator();
     }
 }

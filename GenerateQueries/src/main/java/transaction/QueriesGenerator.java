@@ -29,26 +29,31 @@ public class QueriesGenerator {
     }
 
     private void generateTransaction(List<Transaction> transactions){
-        int index = 1;
-        for(Transaction transaction : transactions){
-            System.out.println(index);
-            index++;
-            String queries = transaction.generateTransaction();
-            writeToFile(queries);
+        for(int i=1; i<=1; i++) {
+            int index = 1;
+            System.out.println(i + "/10");
+            for (Transaction transaction : transactions) {
+                System.out.println("    " + index + "/11");
+                index++;
+                String queries = transaction.generateTransaction();
+                writeToFile(queries);
+            }
         }
     }
 
     private void writeToFile(String queries){
-        Writer writer = null;
-
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PrintWriter out = null;
         try {
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("queries.txt"), "utf-8"));
-            writer.write(queries);
-        } catch (IOException ex) {
-            // Report
-        } finally {
-            try {writer.close();} catch (Exception ex) {/*ignore*/}
+            fw = new FileWriter("queries.txt", true);
+            bw = new BufferedWriter(fw);
+            out = new PrintWriter(bw);
+            out.print(queries);
+            out.close();
+        } catch (IOException e) {
+            //exception handling left as an exercise for the reader
         }
+
     }
 }

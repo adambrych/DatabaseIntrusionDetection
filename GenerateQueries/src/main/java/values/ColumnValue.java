@@ -46,7 +46,7 @@ public class ColumnValue {
         Random rand = new Random();
         int index = rand.nextInt(values.size());
         String value = values.get(index);
-        if(!StringUtils.isNumeric(value)){
+        if(!value.matches("-?\\d+(\\.\\d+)?")){
             value = "\"" + value + "\"";
         }
         return value;

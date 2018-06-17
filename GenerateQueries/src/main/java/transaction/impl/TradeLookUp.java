@@ -53,7 +53,7 @@ public class TradeLookUp implements Transaction {
 
     private String frameTwo(){
         String query1 = ROLE + "," +
-                "select first max_trades rows " +
+                "select " +
                 "T_BID_PRICE, " +
                 "T_EXEC_NAME, " +
                 "T_IS_CASH, " +
@@ -86,7 +86,7 @@ public class TradeLookUp implements Transaction {
 
     private String frameThree(){
         String query1 = ROLE + "," +
-                "select first max_trades rows " +
+                "select " +
                 "T_CA_ID, " +
                 "T_EXEC_NAME, " +
                 "T_IS_CASH, " +

@@ -41,7 +41,7 @@ public class TradeResult implements Transaction {
                 "HOLDING_SUMMARY " +
                 "where " +
                 "HS_CA_ID = " + ColumnValue.getValue("HS_CA_ID") +
-                        "  and " +
+                        " and " +
                 "HS_S_SYMB = " + ColumnValue.getValue("HS_S_SYMB");
 
         return query + System.lineSeparator() +
@@ -60,12 +60,12 @@ public class TradeResult implements Transaction {
                 "CA_ID = " + ColumnValue.getValue("CA_ID");
 
                 String query2 =  ROLE + "," +"insert into " +
-                "HOLDING_SUMMARY ( " +
+                "HOLDING_SUMMARY (" +
                 "HS_CA_ID, " +
                 "HS_S_SYMB, " +
-                "HS_QTY " +
+                "HS_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HS_CA_ID") + ", " +
                         ColumnValue.getValue("HS_S_SYMB") + ", " +
                         ColumnValue.getValue("HS_QTY") +
@@ -107,13 +107,13 @@ public class TradeResult implements Transaction {
                 "H_DTS asc";
 
                 String query6 =  ROLE + "," +"insert into " +
-                "HOLDING_HISTORY ( " +
+                "HOLDING_HISTORY (" +
                 "HH_H_T_ID, " +
                 "HH_T_ID, " +
                 "HH_BEFORE_QTY, " +
-                "HH_AFTER_QTY " +
+                "HH_AFTER_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HH_H_T_ID")+ ", "+
         ColumnValue.getValue("HH_T_ID")+ ", "+
         ColumnValue.getValue("HH_BEFORE_QTY")+ ", "+
@@ -122,29 +122,29 @@ public class TradeResult implements Transaction {
         
 
                 String query8 =  ROLE + "," +"insert into " +
-                "HOLDING_HISTORY ( " +
+                "HOLDING_HISTORY (" +
                 "HH_H_T_ID, " +
                 "HH_T_ID, " +
                 "HH_BEFORE_QTY, " +
-                "HH_AFTER_QTY " +
+                "HH_AFTER_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HH_H_T_ID")+ ", "+
                         ColumnValue.getValue("HH_T_ID")+ ", "+
                         ColumnValue.getValue("HH_BEFORE_QTY")+
-                "0 " +
+                "0" +
                 ")";
 
                 String query10 =  ROLE + "," +"insert into " +
-                "HOLDING ( " +
+                "HOLDING (" +
                 "H_T_ID, " +
                 "H_CA_ID, " +
                 "H_S_SYMB, " +
                 "H_DTS, " +
                 "H_PRICE, " +
-                "H_QTY " +
+                "H_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("H_T_ID")+ ", "+
                         ColumnValue.getValue("H_CA_ID")+ ", "+
                         ColumnValue.getValue("H_S_SYMB")+ ", "+
@@ -161,12 +161,12 @@ public class TradeResult implements Transaction {
                 "}";
 
                 String query12 =  ROLE + "," +"insert into " +
-                "HOLDING_SUMMARY ( " +
+                "HOLDING_SUMMARY (" +
                 "HS_CA_ID, " +
                 "HS_S_SYMB, " +
-                "HS_QTY " +
+                "HS_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HS_CA_ID")+ ", "+
                         ColumnValue.getValue("HS_S_SYMB")+ ", "+
                         ColumnValue.getValue("HS_QTY")+ 
@@ -175,7 +175,7 @@ public class TradeResult implements Transaction {
                 String query13 =  ROLE + "," +"update " +
                 "HOLDING_SUMMARY " +
                 "set " +
-                "HS_QTY = hs_qty + trade_qty " +
+                "HS_QTY = " + ColumnValue.getValue("HS_QTY") + " " +
                 "where " +
                 "HS_CA_ID = " + ColumnValue.getValue("HS_CA_ID")+ " and "+
                 "HS_S_SYMB = " + ColumnValue.getValue("HS_S_SYMB");
@@ -205,41 +205,41 @@ public class TradeResult implements Transaction {
                 "H_DTS asc";
 
                 String query16 =  ROLE + "," +"insert into " +
-                "HOLDING_HISTORY ( " +
+                "HOLDING_HISTORY (" +
                 "HH_H_T_ID, " +
                 "HH_T_ID, " +
                 "HH_BEFORE_QTY, " +
-                "HH_AFTER_QTY " +
+                "HH_AFTER_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HS_CA_ID")+ ", "+
                         ColumnValue.getValue("HS_CA_ID")+ ", "+
                         ColumnValue.getValue("HS_CA_ID")+
                 ")";
 
                 String query17 =  ROLE + "," +"insert into " +
-                "HOLDING_HISTORY ( " +
+                "HOLDING_HISTORY (" +
                 "HH_H_T_ID, " +
                 "HH_T_ID, " +
                 "HH_BEFORE_QTY, " +
-                "HH_AFTER_QTY " +
+                "HH_AFTER_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HH_H_T_ID")+ ", "+
                         ColumnValue.getValue("HH_T_ID")+ ", "+
                         ColumnValue.getValue("HH_AFTER_QTY")+ ", "+
-                "0 " +
+                "0" +
                 ")";
         
 
                 String query19 =  ROLE + "," +"insert into " +
-                "HOLDING_HISTORY ( " +
+                "HOLDING_HISTORY (" +
                 "HH_H_T_ID, " +
                 "HH_T_ID, " +
                 "HH_BEFORE_QTY, " +
-                "HH_AFTER_QTY " +
+                "HH_AFTER_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("HH_H_T_ID")+ ", "+
                         ColumnValue.getValue("HH_T_ID")+ ", "+
                 "0, " +
@@ -247,21 +247,21 @@ public class TradeResult implements Transaction {
                 ")";
 
                 String query20 =  ROLE + "," +"insert into " +
-                "HOLDING ( " +
+                "HOLDING (" +
                 "H_T_ID, " +
                 "H_CA_ID, " +
                 "H_S_SYMB, "+
                 "H_DTS, " +
                 "H_PRICE, " +
-                "H_QTY " +
+                "H_QTY" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("H_T_ID")+ ", "+
                         ColumnValue.getValue("H_CA_ID")+ ", "+
                         ColumnValue.getValue("H_S_SYMB")+ ", "+
                         ColumnValue.getValue("H_DTS")+ ", "+
                         ColumnValue.getValue("H_PRICE")+ ", "+
-                        ColumnValue.getValue("H_QTY")+ ", "+
+                        ColumnValue.getValue("H_QTY")+
                 ")";
 
                 String query21 =  ROLE + "," +"delete from " +
@@ -320,7 +320,7 @@ public class TradeResult implements Transaction {
     }
 
     private String frame4(){
-        String query="select " +
+        String query= ROLE + "," +"select " +
                 "S_EX_ID, " +
                 "S_NAME " +
                 "from " +
@@ -328,7 +328,7 @@ public class TradeResult implements Transaction {
                 "where " +
                 "S_SYMB = " + ColumnValue.getValue("S_SYMB");
 
-                String query2="select " +
+                String query2= ROLE + "," +"select " +
                 "C_TIER " +
                 "from " +
                 "CUSTOMER " +
@@ -348,14 +348,14 @@ public class TradeResult implements Transaction {
                 "CR_FROM_QTY <= " + ColumnValue.getValue("CR_FROM_QTY") +
                         " and " +
                 "CR_TO_QTY >= " + ColumnValue.getValue("CR_TO_QTY") +
-                        " LIMIT 1";
+                        ") LIMIT 1";
 
         return query + System.lineSeparator() +
                 query2 + System.lineSeparator();
     }
 
     private String frame5(){
-        String query="update " +
+        String query= ROLE + "," +"update " +
                 "TRADE " +
                 "set " +
                 "T_COMM = " + ColumnValue.getValue("T_COMM") + ", "+
@@ -365,25 +365,25 @@ public class TradeResult implements Transaction {
                 "where " +
                 "T_ID = " + ColumnValue.getValue("T_ID");
 
-                String query2="insert into " +
-                "TRADE_HISTORY ( " +
+                String query2= ROLE + "," +"insert into " +
+                "TRADE_HISTORY (" +
                 "TH_T_ID, " +
                 "TH_DTS, " +
-                "TH_ST_ID " +
+                "TH_ST_ID" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("TH_T_ID") + ", "+
                         ColumnValue.getValue("TH_DTS") + ", "+
                         ColumnValue.getValue("TH_ST_ID") +
                 ")";
 
-                String query3="update " +
+                String query3= ROLE + "," +"update " +
                 "BROKER " +
                 "set " +
                 "B_COMM_TOTAL = " + ColumnValue.getValue("B_COMM_TOTAL") + ", "+
-                "B_NUM_TRADES =  " + ColumnValue.getValue("B_NUM_TRADES") + 
+                "B_NUM_TRADES = " + ColumnValue.getValue("B_NUM_TRADES") + " " +
                 "where " +
-                "B_ID =" + ColumnValue.getValue("B_ID");
+                "B_ID = " + ColumnValue.getValue("B_ID");
 
         return query + System.lineSeparator() +
                 query2 + System.lineSeparator() +
@@ -391,41 +391,41 @@ public class TradeResult implements Transaction {
     }
 
     private String frame6(){
-        String query="insert into " +
-                "SETTLEMENT ( " +
+        String query= ROLE + "," +"insert into " +
+                "SETTLEMENT (" +
                 "SE_T_ID, " +
                 "SE_CASH_TYPE, " +
                 "SE_CASH_DUE_DATE, " +
-                "SE_AMT " +
+                "SE_AMT" +
                 ") " +
-                "values ( " +
+                "values (" +
                 ColumnValue.getValue("SE_T_ID") + ", "+
                 ColumnValue.getValue("SE_CASH_TYPE") + ", "+
                 ColumnValue.getValue("SE_CASH_DUE_DATE") + ", "+
                 ColumnValue.getValue("SE_AMT")+
                 ")";
 
-        String query2="update " +
+        String query2= ROLE + "," +"update " +
                 "CUSTOMER_ACCOUNT " +
                 "set " +
                 "CA_BAL = " + ColumnValue.getValue("SE_AMT") + " " +
                 "where " +
                 "CA_ID = " + ColumnValue.getValue("CA_ID");
 
-        String query3="insert into " +
-                "CASH_TRANSACTION ( " +
+        String query3= ROLE + "," +"insert into " +
+                "CASH_TRANSACTION (" +
                 "CT_DTS, " +
                 "CT_T_ID, " +
                 "CT_AMT, " +
-                "CT_NAME " +
+                "CT_NAME" +
                 ") " +
-                "values ( " +
+                "values (" +
                 ColumnValue.getValue("CT_DTS") + ", "+
                 ColumnValue.getValue("CT_T_ID") + ", "+
                 ColumnValue.getValue("CT_AMT") + ", "+
                 ColumnValue.getValue("CT_NAME") +
                 ")";
-        String query4="select " +
+        String query4= ROLE + "," +"select " +
                 "CA_BAL " +
                 "from " +
                 "CUSTOMER_ACCOUNT " +

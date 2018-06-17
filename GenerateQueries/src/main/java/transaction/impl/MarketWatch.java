@@ -1,6 +1,7 @@
 package transaction.impl;
 
 import transaction.Transaction;
+import values.ColumnValue;
 
 public class MarketWatch implements Transaction {
 
@@ -20,20 +21,25 @@ public class MarketWatch implements Transaction {
                 "WATCH_LIST " +
                 "where " +
                 "WI_WL_ID = WL_ID and " +
-                "WL_C_ID = cust_id";
+                "WL_C_ID = " + ColumnValue.getValue("WL_C_ID");
 
-        String query2 = ROLE + "," +
-                "select " +
-                "S_SYMB " +
-                "from " +
-                "INDUSTRY, " +
-                "COMPANY, " +
-                "SECURITY " +
-                "where " +
-                "IN_NAME = industry_name and " +
-                "CO_IN_ID = IN_ID and " +
-                "CO_ID between (starting_co_id and ending_co_id) and " +
-                "S_CO_ID = CO_ID";
+                String query2 = ROLE + "," +
+                        "select " +
+                        "S_SYMB " +
+                        "from " +
+                        "INDUSTRY, " +
+                        "COMPANY, " +
+                        "SECURITY " +
+                        "where " +
+                        "IN_NAME = " + ColumnValue.getValue("IN_NAME") +
+                        " and " +
+                        "CO_IN_ID = IN_ID and " +
+                        "CO_ID between (" +
+                        ColumnValue.getValue("CO_ID") +
+                        " and " +
+                        ColumnValue.getValue("CO_ID") +
+                        " and " +
+                        "S_CO_ID = CO_ID)";
 
         String query3 = ROLE + "," +
                 "select " +
@@ -41,7 +47,7 @@ public class MarketWatch implements Transaction {
                 "from " +
                 "HOLDING_SUMMARY " +
                 "where " +
-                "HS_CA_ID = acct_id";
+                "HS_CA_ID = " + ColumnValue.getValue("HS_CA_ID");
 
         String query4 = ROLE + "," +
                 "select " +
@@ -49,7 +55,7 @@ public class MarketWatch implements Transaction {
                 "from " +
                 "LAST_TRADE " +
                 "where " +
-                "LT_S_SYMB = symbol";
+                "LT_S_SYMB = " + ColumnValue.getValue("LT_S_SYMB");
 
          String query5 = ROLE + "," +
                  "select " +
@@ -57,7 +63,7 @@ public class MarketWatch implements Transaction {
                 "from " +
                 "SECURITY " +
                 "where " +
-                "S_SYMB = symbol";
+                "S_SYMB = " + ColumnValue.getValue("S_SYMB");
 
         String query6 = ROLE + "," +
                 "select " +
@@ -65,8 +71,9 @@ public class MarketWatch implements Transaction {
                 "from " +
                 "DAILY_MARKET " +
                 "where " +
-                "DM_S_SYMB = symbol and " +
-                "DM_DATE = start_date";
+                "DM_S_SYMB = " + ColumnValue.getValue("DM_S_SYMB") +
+                " and " +
+                "DM_DATE = " + ColumnValue.getValue("DM_DATE");
 
         return query + System.lineSeparator() +
                 query2 + System.lineSeparator() +

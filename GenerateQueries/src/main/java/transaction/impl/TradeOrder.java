@@ -51,12 +51,12 @@ public class TradeOrder implements Transaction {
                 "from " +
                 "ACCOUNT_PERMISSION " +
                 "where " +
-                "AP_CA_ID =" + ColumnValue.getValue("AP_CA_ID") +
-                "  and " +
-                "AP_F_NAME =" + ColumnValue.getValue("AP_F_NAME")+
-                "  and " +
-                "AP_L_NAME =" + ColumnValue.getValue("AP_L_NAME")+
-                "  and " +
+                "AP_CA_ID = " + ColumnValue.getValue("AP_CA_ID") +
+                " and " +
+                "AP_F_NAME = " + ColumnValue.getValue("AP_F_NAME")+
+                " and " +
+                "AP_L_NAME = " + ColumnValue.getValue("AP_L_NAME")+
+                " and " +
                 "AP_TAX_ID = " + ColumnValue.getValue("AP_TAX_ID");
         
         return query + System.lineSeparator();
@@ -130,7 +130,7 @@ public class TradeOrder implements Transaction {
                 "H_CA_ID = " + ColumnValue.getValue("H_CA_ID")+
                 " and " +
                 "H_S_SYMB = " + ColumnValue.getValue("H_S_SYMB")+
-                "order by " +
+                " order by " +
                 "H_DTS desc";
 
         String query9 = ROLE + "," +"select " +
@@ -142,7 +142,7 @@ public class TradeOrder implements Transaction {
                 "H_CA_ID = " + ColumnValue.getValue("H_CA_ID")+
                 " and " +
                 "H_S_SYMB = " + ColumnValue.getValue("H_S_SYMB")+
-                "order by " +
+                " order by " +
                 "H_DTS asc";
 
         String query10 = ROLE + "," +
@@ -213,12 +213,12 @@ public class TradeOrder implements Transaction {
 
     private String frame4(){
         String query = ROLE + "," +"insert into " +
-                "TRADE ( " +
+                "TRADE (" +
                 "T_ID, T_DTS, T_ST_ID, T_TT_ID, T_IS_CASH, " +
                 "T_S_SYMB, T_QTY, T_BID_PRICE, T_CA_ID, T_EXEC_NAME, " +
-                "T_TRADE_PRICE, T_CHRG, T_COMM, T_TAX, T_LIFO " +
+                "T_TRADE_PRICE, T_CHRG, T_COMM, T_TAX, T_LIFO" +
                 ") " +
-                "values ( " +
+                "values (" +
                 ColumnValue.getValue("T_ID") + ", " +
                 ColumnValue.getValue("T_DTS") + ", " +
                 ColumnValue.getValue("T_ST_ID") + ", " +
@@ -237,11 +237,11 @@ public class TradeOrder implements Transaction {
                 ")";
 
                 String query2 = ROLE + "," +"insert into " +
-                "TRADE_REQUEST ( " +
+                "TRADE_REQUEST (" +
                 "TR_T_ID, TR_TT_ID, TR_S_SYMB, " +
-                "TR_QTY, TR_BID_PRICE, TR_B_ID " +
+                "TR_QTY, TR_BID_PRICE, TR_B_ID" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("T_ID") + ", " +
                         ColumnValue.getValue("T_TT_ID") + ", " +
                         ColumnValue.getValue("T_S_SYMB") + ", " +
@@ -251,13 +251,13 @@ public class TradeOrder implements Transaction {
                 ")";
 
                 String query3 = ROLE + "," +"insert into " +
-                "TRADE_HISTORY ( " +
-                "TH_T_ID, TH_DTS, TH_ST_ID " +
+                "TRADE_HISTORY (" +
+                "TH_T_ID, TH_DTS, TH_ST_ID" +
                 ") " +
-                "values ( " +
+                "values (" +
                         ColumnValue.getValue("TH_T_ID") + ", " +
                         ColumnValue.getValue("TH_DTS") + ", " +
-                        ColumnValue.getValue("TH_ST_ID") + ", " +
+                        ColumnValue.getValue("TH_ST_ID") +
                 ")";
 
         return query + System.lineSeparator() +

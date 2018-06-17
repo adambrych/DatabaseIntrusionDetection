@@ -46,6 +46,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/GenerateQueries/pom.xml" />
+        <option value="$PROJECT_DIR$/Fingerprints/pom.xml" />
       </list>
     </option>
   </component>

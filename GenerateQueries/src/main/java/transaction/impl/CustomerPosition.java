@@ -50,7 +50,7 @@ public class CustomerPosition implements Transaction {
                 "C_ID = "+ ColumnValue.getValue("C_ID");
 
         String query3 = ROLE + "," +
-                "select" +
+                "select " +
                 "CA_ID, " +
                 "CA_BAL, " +
                 "SUM(HS_QTY * LT_PRICE) " +

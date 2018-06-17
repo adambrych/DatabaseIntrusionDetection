@@ -33,27 +33,27 @@ public class MarketFeed implements Transaction {
                 "TRADE_REQUEST " +
                 "where " +
                 "TR_S_SYMB = " + ColumnValue.getValue("T_S_SYMB") +
-                " and ( " +
-                "(TR_TT_ID =  " + ColumnValue.getValue("T_TT_ID") +
+                " and (" +
+                "(TR_TT_ID = " + ColumnValue.getValue("T_TT_ID") +
                 " and " +
                 "TR_BID_PRICE >= " + ColumnValue.getValue("T_BID_PRICE")+
-                " or " +
+                ") or " +
                 "(TR_TT_ID = " + ColumnValue.getValue("T_TT_ID")+
                 " and " +
                 "TR_BID_PRICE <= " + ColumnValue.getValue("T_BID_PRICE")+
-                " or " +
+                ") or " +
                 "(TR_TT_ID = " + ColumnValue.getValue("T_TT_ID")+
                 " and " +
                 "TR_BID_PRICE >= " + ColumnValue.getValue("T_BID_PRICE")+
-                ") " +
+                ")" +
                 ")";
         String query3 = ROLE + "," +
                 "insert into " +
                 "TRADE_HISTORY " +
-                "values ( " +
+                "values (" +
                 "TH_T_ID = " + ColumnValue.getValue("TH_T_ID") + ", " +
                 "TH_DTS = " + ColumnValue.getValue("TH_DTS") + ", " +
-                "TH_ST_ID = " + ColumnValue.getValue("TH_ST_ID") + " " +
+                "TH_ST_ID = " + ColumnValue.getValue("TH_ST_ID") +
                 ")";
 
         return query + System.lineSeparator() +

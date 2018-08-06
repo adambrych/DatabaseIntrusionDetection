@@ -25,6 +25,7 @@
         <processorPath useClasspath="true" />
         <module name="Fingerprints" />
         <module name="GenerateQueries" />
+        <module name="Sequences" />
       </profile>
     </annotationProcessing>
   </component>

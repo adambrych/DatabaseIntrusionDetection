@@ -6,14 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sequence {
-    protected SequenceType sequenceType;
     protected List<Operation> sequence;
+    private SequenceType sequenceType;
 
     public Sequence(){
-        sequence = new ArrayList<Operation>();
+        setSequence(new ArrayList<Operation>());
     }
 
     public List<Operation> getSequence(){
         return sequence;
+    }
+
+    public void setSequence(List<Operation> sequence) {
+        this.sequence = sequence;
+    }
+
+    public SequenceType getSequenceType() {
+        return sequenceType;
+    }
+
+    public void setSequenceType(SequenceType sequenceType) {
+        this.sequenceType = sequenceType;
     }
 }

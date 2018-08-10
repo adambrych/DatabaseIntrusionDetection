@@ -27,7 +27,7 @@ public class BrokerVolume implements Transaction {
                 "where " +
                 "TR_B_ID = B_ID and " +
                 "TR_S_SYMB = S_SYMB and " +
-                "S_CO_ID = CO_ID and" +
+                "S_CO_ID = CO_ID and " +
                 "CO_IN_ID = IN_ID and " +
                 "SC_ID = IN_SC_ID and " +
                 //"B_NAME in (broker_list) and " +

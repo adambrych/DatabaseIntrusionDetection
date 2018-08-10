@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Sequence.*;
+import operation.Operation;
+import operation.OperationType;
 import operation.impl.Read;
 import operation.impl.Write;
 
@@ -46,6 +48,7 @@ public class Main {
             lastTransaction = transaction;
             lastRole = role;
         }
+        writeToFile(transactions);
     }
 
     private static Transaction prepareTransaction(Transaction lastTransaction, String lastRole, String role, List<Transaction> transactions){
@@ -77,10 +80,20 @@ public class Main {
 
     private static Sequence selectOperation(String[] splitedQuery){
         Sequence sequence = new Sequence();
-        for(int i=1; i<splitedQuery.length; i++){
+        int i;
+        for(i=1; i<splitedQuery.length; i++){
             String value = splitedQuery[i];
-            if(value.equals("FROM"))
+            if(value.equals("FROM")){
+                value = splitedQuery[i];
+                while(!value.equals("WHERE") && i<splitedQuery.length){
+                    i++;
+                    value = splitedQuery[i];
+                }
+                if(i == splitedQuery.length)
+                    break;
+                whereSequence(splitedQuery, i, sequence);
                 break;
+            }
             Read read = new Read();
             if(value.startsWith("SUM("))
                 i = sumOperation(splitedQuery, i, sequence);
@@ -102,7 +115,8 @@ public class Main {
             value = splitedQuery[i];
         }
         i++;
-        for(int j=i; j<splitedQuery.length; j++){
+        int j;
+        for(j=i; j<splitedQuery.length; j++){
 
             value = splitedQuery[j];
             Write write = new Write();
@@ -111,6 +125,10 @@ public class Main {
             while(!value.endsWith(",") && !value.equals("WHERE") && j+1<splitedQuery.length){
                 j++;
                 value = splitedQuery[j];
+            }
+            if(value.equals("WHERE")) {
+                whereSequence(splitedQuery, j, sequence);
+                break;
             }
         }
         return sequence;
@@ -146,6 +164,38 @@ public class Main {
 
         return index;
 
+    }
+
+    private static void whereSequence(String[] splitedQuery, int index, Sequence sequence){
+        index=index+3;
+        for(int i=index; i<splitedQuery.length; i=i+4){
+            String value = splitedQuery[i];
+            if(!value.matches("-?\\d+(\\.\\d+)?") && !value.startsWith("\"") && !value.endsWith("\"")){
+                Read read = new Read();
+                read.setColumn(value);
+                sequence.getSequence().add(read);
+            }
+            if(i+1<splitedQuery.length && (splitedQuery[i+1].equals("GROUP") || splitedQuery[i+1].equals("ORDER")))
+                break;
+        }
+    }
+
+    private static void writeToFile(List<Transaction> transactions) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("test.txt"));
+        for(Transaction transaction : transactions){
+            for(Sequence sequence : transaction.getSequences()){
+                writer.write(transaction.getRole() + ": ");
+                for(Operation operation : sequence.getSequence()){
+                    writer.write(operation.getColumn() + "_");
+                    if(operation.getType() == OperationType.READ)
+                        writer.write("r ");
+                    else
+                        writer.write("w ");
+                }
+                writer.write(System.lineSeparator());
+            }
+        }
+        writer.close();
     }
 
 }

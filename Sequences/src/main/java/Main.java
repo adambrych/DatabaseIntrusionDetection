@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Sequence.*;
+import Sequence.impl.ReadSequence;
+import Sequence.impl.WriteSequence;
 import operation.Operation;
 import operation.OperationType;
 import operation.impl.Read;
@@ -58,6 +60,7 @@ public class Main {
             if(lastTransaction == null)
                 return new Transaction(role);
             else{
+                lastTransaction.joinSequences();
                 transactions.add(lastTransaction);
                 return new Transaction(role);
             }
@@ -196,6 +199,34 @@ public class Main {
             }
         }
         writer.close();
+    }
+
+    private static RWSequences prepareReadAndWriteSequnces(List<Transaction> transactions){
+        RWSequences rwSequences = new RWSequences();
+        for(Transaction transaction : transactions){
+            List<Operation> readColumn = new ArrayList<Operation>();
+            List<Operation> writeColumn = new ArrayList<Operation>();
+            for(Operation operation: transaction.getJoinedList()){
+                if(operation.getType() == OperationType.READ){
+                    readColumn.add(operation);
+                }
+                else{
+                    writeColumn.add(operation);
+                    if(readColumn.size() > 0 && writeColumn.size() > 0){
+                        ReadSequence sequence = new ReadSequence();
+                        sequence.getSequence().addAll(readColumn);
+                        sequence.getSequence().add(operation);
+                        rwSequences.getSequences().add(sequence);
+                    }
+                    if(writeColumn.size() > 1){
+                        WriteSequence sequence = new WriteSequence();
+                        sequence.getSequence().addAll(writeColumn);
+                        rwSequences.getSequences().add(sequence);
+                    }
+                }
+            }
+        }
+        return rwSequences;
     }
 
 }

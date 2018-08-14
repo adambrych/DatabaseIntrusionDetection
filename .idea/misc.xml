@@ -48,6 +48,7 @@
         <option value="$PROJECT_DIR$/GenerateQueries/pom.xml" />
         <option value="$PROJECT_DIR$/Fingerprints/pom.xml" />
         <option value="$PROJECT_DIR$/Sequences/pom.xml" />
+        <option value="$PROJECT_DIR$/RandomForest/pom.xml" />
       </list>
     </option>
   </component>

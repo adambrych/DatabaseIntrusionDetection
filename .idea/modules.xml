@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/DatabaseIntrusionDetection.iml" filepath="$PROJECT_DIR$/DatabaseIntrusionDetection.iml" />
       <module fileurl="file://$PROJECT_DIR$/Fingerprints/Fingerprints.iml" filepath="$PROJECT_DIR$/Fingerprints/Fingerprints.iml" />
       <module fileurl="file://$PROJECT_DIR$/GenerateQueries/GenerateQueries.iml" filepath="$PROJECT_DIR$/GenerateQueries/GenerateQueries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RandomForest/RandomForest.iml" filepath="$PROJECT_DIR$/RandomForest/RandomForest.iml" />
       <module fileurl="file://$PROJECT_DIR$/Sequences/Sequences.iml" filepath="$PROJECT_DIR$/Sequences/Sequences.iml" />
     </modules>
   </component>

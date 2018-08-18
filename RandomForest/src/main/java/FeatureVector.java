@@ -49,6 +49,7 @@ public class FeatureVector {
         setNumberOfNumericValues(0);
         setNumberOfJoins(0);
         setNumberOfAndOr(0);
+        setAttributesElements(new ArrayList<String>());
     }
 
     public int getQueryType() {

@@ -1,6 +1,4 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
@@ -55,7 +53,7 @@ public class Main {
         FeatureVector featureVector = query.getFeatureVector();
         featureVector.setLength(queryString.length());
         int index = 1;
-        while(index < splitedQuery.length && splitedQuery[index].equals("FROM")){
+        while(index < splitedQuery.length && !splitedQuery[index].equals("FROM")){
             String value = splitedQuery[index];
             if(value.startsWith("SUM(")) {
                 index = sumOperation(splitedQuery, index, featureVector);
@@ -68,7 +66,8 @@ public class Main {
             featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
             index++;
         }
-        while(index < splitedQuery.length && splitedQuery[index].equals("WHERE")){
+        index++;
+        while(index < splitedQuery.length && !splitedQuery[index].equals("WHERE")){
             String value = splitedQuery[index];
             if(value.equals("(SELECT"))
                 index = subSelect(splitedQuery, index, featureVector);
@@ -80,7 +79,31 @@ public class Main {
                 break;
             index++;
         }
-        whereSequence(splitedQuery, index, featureVector);
+        index = whereSequence(splitedQuery, index, featureVector);
+        if(index < splitedQuery.length && splitedQuery[index].equals("GROUP"))
+            index = groupOperation(splitedQuery, index, featureVector);
+        if(index < splitedQuery.length && splitedQuery[index].equals("ORDER"))
+            index = orderOperation(splitedQuery, index, featureVector);
+    }
+
+    private static int subSelect(String[] splitedQuery, int index, FeatureVector featureVector){
+        while(index < splitedQuery.length && !splitedQuery[index].equals("FROM")){
+            String value = splitedQuery[index];
+            if(value.endsWith(","))
+                value = value.substring(0, value.length()-1);
+            featureVector.getAttributesElements().add(value);
+            featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+            index++;
+        }
+        while(index < splitedQuery.length && !splitedQuery[index].equals("WHERE")){
+            String value = splitedQuery[index];
+            featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
+            featureVector.getProjectionElements().add(value);
+            index++;
+        }
+        index = whereSequence(splitedQuery, index, featureVector);
+        return index;
+
     }
 
     private static void updateOperation(String[] splitedQuery, String queryString){
@@ -127,45 +150,6 @@ public class Main {
 
     }
 
-    private static int subSelect(String[] splitedQuery, int i, FeatureVector featureVector){
-        i++;
-        String value = "";
-        /*while(i < splitedQuery.length){
-            value = splitedQuery[i];
-            if(value.equals("AS")){
-                i=i+2;
-                continue;
-            }
-            if(value.equals("FROM")){
-                value = splitedQuery[i];
-                while(!value.equals("WHERE") && i<splitedQuery.length){
-                    i++;
-                    value = splitedQuery[i];
-                }
-                if(i == splitedQuery.length)
-                    break;
-                i = whereSequence(splitedQuery, i, sequence);
-                break;
-            }
-            Read read = new Read();
-            if(value.startsWith("SUM(")) {
-                i = sumOperation(splitedQuery, i, sequence);
-                continue;
-            }
-
-            if(value.endsWith(","))
-                value = value.substring(0, value.length()-1);
-            read.setColumn(value);
-            sequence.getSequence().add(read);
-            i++;
-        }*/
-        while(i < splitedQuery.length && !value.endsWith(")")){
-            i++;
-            value = splitedQuery[i];
-        }
-        return i;
-    }
-
     private static int whereSequence(String[] splitedQuery, int index, FeatureVector featureVector){
         index=index+3;
         int i;
@@ -184,5 +168,13 @@ public class Main {
                 break;
         }
         return i;
+    }
+
+    private static void orderOperation(String[] splitedQuery, int index, FeatureVector featureVector){
+        
+    }
+
+    private static void groupOperation(String[] splitedQuery, int index, FeatureVector featureVector){
+
     }
 }

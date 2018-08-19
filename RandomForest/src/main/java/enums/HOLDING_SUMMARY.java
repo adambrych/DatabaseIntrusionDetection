@@ -1,6 +1,6 @@
 package enums;
 
-public enum HOLDING_SUMMARY {
+public enum HOLDING_SUMMARY  implements Table{
     HS_CA_ID(0),
     HS_S_SYMB(1),
     HS_QTY(2);

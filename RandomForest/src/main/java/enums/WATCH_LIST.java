@@ -1,6 +1,6 @@
 package enums;
 
-public enum WATCH_LIST {
+public enum WATCH_LIST implements Table {
     WL_ID(0),
     WL_C_ID(1);
 

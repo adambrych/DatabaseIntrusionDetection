@@ -8,16 +8,16 @@ public class FeatureVector {
     private String projections;
     private int numberOfAttributes;
     private int[] attributesElements;
-    private List<String> positionOfAttributes;
+    private int[] positionOfAttributes;
     private int numberOfSelection;
     private int[] numberOfAttributesFromSelection;
-    private List<String> positionOfSelection;
+    private int[] positionOfSelection;
     private int numberOfOrder;
     private int[] numberOfAttributesFromOrder;
-    private List<String> positionOfOrder;
+    private int[] positionOfOrder;
     private int numberOfGroup;
     private int[] numberOfAttributesFromGroup;
-    private List<String> positionOfGroup;
+    private int[] positionOfGroup;
     private int stringValues;
     private int lengthOfStringValues;
     private int numberOfNumericValues;
@@ -30,13 +30,13 @@ public class FeatureVector {
         this.setNumberOfProjections(0);
         setProjections("");
         setNumberOfAttributes(0);
-        setPositionOfAttributes(new ArrayList<String>());
+        setPositionOfAttributes(initializeTable());
         setNumberOfSelection(0);
-        setPositionOfSelection(new ArrayList<String>());
+        setPositionOfSelection(initializeTable());
         setNumberOfOrder(0);
-        setPositionOfOrder(new ArrayList<String>());
+        setPositionOfOrder(initializeTable());
         setNumberOfGroup(0);
-        setPositionOfGroup(new ArrayList<String>());
+        setPositionOfGroup(initializeTable());
         setStringValues(0);
         setLengthOfStringValues(0);
         setNumberOfNumericValues(0);
@@ -88,14 +88,6 @@ public class FeatureVector {
         this.numberOfAttributes = numberOfAttributes;
     }
 
-    public List<String> getPositionOfAttributes() {
-        return positionOfAttributes;
-    }
-
-    public void setPositionOfAttributes(List<String> positionOfAttributes) {
-        this.positionOfAttributes = positionOfAttributes;
-    }
-
     public int getNumberOfSelection() {
         return numberOfSelection;
     }
@@ -104,13 +96,6 @@ public class FeatureVector {
         this.numberOfSelection = numberOfSelection;
     }
 
-    public List<String> getPositionOfSelection() {
-        return positionOfSelection;
-    }
-
-    public void setPositionOfSelection(List<String> positionOfSelection) {
-        this.positionOfSelection = positionOfSelection;
-    }
 
     public int getNumberOfOrder() {
         return numberOfOrder;
@@ -120,13 +105,6 @@ public class FeatureVector {
         this.numberOfOrder = numberOfOrder;
     }
 
-    public List<String> getPositionOfOrder() {
-        return positionOfOrder;
-    }
-
-    public void setPositionOfOrder(List<String> positionOfOrder) {
-        this.positionOfOrder = positionOfOrder;
-    }
 
     public int getNumberOfGroup() {
         return numberOfGroup;
@@ -136,13 +114,6 @@ public class FeatureVector {
         this.numberOfGroup = numberOfGroup;
     }
 
-    public List<String> getPositionOfGroup() {
-        return positionOfGroup;
-    }
-
-    public void setPositionOfGroup(List<String> positionOfGroup) {
-        this.positionOfGroup = positionOfGroup;
-    }
 
     public int getStringValues() {
         return stringValues;
@@ -222,5 +193,37 @@ public class FeatureVector {
 
     public void setNumberOfAttributesFromGroup(int[] numberOfAttributesFromGroup) {
         this.numberOfAttributesFromGroup = numberOfAttributesFromGroup;
+    }
+
+    public int[] getPositionOfAttributes() {
+        return positionOfAttributes;
+    }
+
+    public void setPositionOfAttributes(int[] positionOfAttributes) {
+        this.positionOfAttributes = positionOfAttributes;
+    }
+
+    public int[] getPositionOfSelection() {
+        return positionOfSelection;
+    }
+
+    public void setPositionOfSelection(int[] positionOfSelection) {
+        this.positionOfSelection = positionOfSelection;
+    }
+
+    public int[] getPositionOfOrder() {
+        return positionOfOrder;
+    }
+
+    public void setPositionOfOrder(int[] positionOfOrder) {
+        this.positionOfOrder = positionOfOrder;
+    }
+
+    public int[] getPositionOfGroup() {
+        return positionOfGroup;
+    }
+
+    public void setPositionOfGroup(int[] positionOfGroup) {
+        this.positionOfGroup = positionOfGroup;
     }
 }

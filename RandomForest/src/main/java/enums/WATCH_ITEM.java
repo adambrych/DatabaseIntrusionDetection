@@ -1,6 +1,6 @@
 package enums;
 
-public enum WATCH_ITEM {
+public enum WATCH_ITEM  implements Table{
     WI_WL_ID(0),
     WI_S_SYMB(1);
 

@@ -1,6 +1,6 @@
 package enums;
 
-public enum BROKER {
+public enum BROKER implements Table {
     B_ID(0),
     B_ST_ID(1),
     B_NAME(2),

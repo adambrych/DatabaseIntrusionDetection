@@ -1,6 +1,6 @@
 package enums;
 
-public enum CUSTOMER_ACCOUNT {
+public enum CUSTOMER_ACCOUNT implements Table {
     CA_ID(0),
     CA_B_ID(1),
     CA_C_ID(2),

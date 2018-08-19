@@ -1,6 +1,6 @@
 package enums;
 
-public enum CASH_TRANSACTION {
+public enum CASH_TRANSACTION implements Table {
     CT_T_ID(0),
     CT_DTS(1),
     CT_AMT(2),

@@ -1,6 +1,6 @@
 package enums;
 
-public enum COMMISSION_RATE {
+public enum COMMISSION_RATE implements Table {
     CR_C_TIER(0),
     CR_TT_ID(1),
     CR_EX_ID(2),

@@ -1,6 +1,6 @@
 package enums;
 
-public enum HOLDING {
+public enum HOLDING  implements Table{
     H_T_ID(0),
     H_CA_ID(1),
     H_S_SYMB(2),

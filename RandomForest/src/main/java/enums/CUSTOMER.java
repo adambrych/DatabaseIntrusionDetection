@@ -1,6 +1,6 @@
 package enums;
 
-public enum CUSTOMER {
+public enum CUSTOMER  implements Table{
     C_ID(0),
     C_TAX_ID(1),
     C_ST_ID(2),

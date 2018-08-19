@@ -1,3 +1,5 @@
+import enums.QueryType;
+
 public class Query {
     private QueryType queryType;
     private FeatureVector featureVector;

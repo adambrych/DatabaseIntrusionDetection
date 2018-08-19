@@ -7,18 +7,16 @@ public class FeatureVector {
     private int numberOfProjections;
     private String projections;
     private int numberOfAttributes;
-    private List<String> attributesElements;
-    private List<String> projectionElements;
-    private List<Integer> numberOfAttributesFromProjection;
+    private int[] attributesElements;
     private List<String> positionOfAttributes;
     private int numberOfSelection;
-    private List<Integer> numberOfAttributesFromSelection;
+    private int[] numberOfAttributesFromSelection;
     private List<String> positionOfSelection;
     private int numberOfOrder;
-    private List<Integer> numberOfAttributesFromOrder;
+    private int[] numberOfAttributesFromOrder;
     private List<String> positionOfOrder;
     private int numberOfGroup;
-    private List<Integer> numberOfAttributesFromGroup;
+    private int[] numberOfAttributesFromGroup;
     private List<String> positionOfGroup;
     private int stringValues;
     private int lengthOfStringValues;
@@ -29,27 +27,25 @@ public class FeatureVector {
     public FeatureVector(int type){
         this.setQueryType(type);
         this.setLength(0);
-        this.setProjectionElements(new ArrayList<String>());
         this.setNumberOfProjections(0);
         setProjections("");
         setNumberOfAttributes(0);
-        setNumberOfAttributesFromProjection(new ArrayList<Integer>());
         setPositionOfAttributes(new ArrayList<String>());
         setNumberOfSelection(0);
-        setNumberOfAttributesFromSelection(new ArrayList<Integer>());
         setPositionOfSelection(new ArrayList<String>());
         setNumberOfOrder(0);
-        setNumberOfAttributesFromOrder(new ArrayList<Integer>());
         setPositionOfOrder(new ArrayList<String>());
         setNumberOfGroup(0);
-        setNumberOfAttributesFromGroup(new ArrayList<Integer>());
         setPositionOfGroup(new ArrayList<String>());
         setStringValues(0);
         setLengthOfStringValues(0);
         setNumberOfNumericValues(0);
         setNumberOfJoins(0);
         setNumberOfAndOr(0);
-        setAttributesElements(new ArrayList<String>());
+        setAttributesElements(initializeTable());
+        setNumberOfAttributesFromSelection(initializeTable());
+        setNumberOfAttributesFromGroup(initializeTable());
+        setNumberOfAttributesFromOrder(initializeTable());
     }
 
     public int getQueryType() {
@@ -92,14 +88,6 @@ public class FeatureVector {
         this.numberOfAttributes = numberOfAttributes;
     }
 
-    public List<Integer> getNumberOfAttributesFromProjection() {
-        return numberOfAttributesFromProjection;
-    }
-
-    public void setNumberOfAttributesFromProjection(List<Integer> numberOfAttributesFromProjection) {
-        this.numberOfAttributesFromProjection = numberOfAttributesFromProjection;
-    }
-
     public List<String> getPositionOfAttributes() {
         return positionOfAttributes;
     }
@@ -114,14 +102,6 @@ public class FeatureVector {
 
     public void setNumberOfSelection(int numberOfSelection) {
         this.numberOfSelection = numberOfSelection;
-    }
-
-    public List<Integer> getNumberOfAttributesFromSelection() {
-        return numberOfAttributesFromSelection;
-    }
-
-    public void setNumberOfAttributesFromSelection(List<Integer> numberOfAttributesFromSelection) {
-        this.numberOfAttributesFromSelection = numberOfAttributesFromSelection;
     }
 
     public List<String> getPositionOfSelection() {
@@ -140,14 +120,6 @@ public class FeatureVector {
         this.numberOfOrder = numberOfOrder;
     }
 
-    public List<Integer> getNumberOfAttributesFromOrder() {
-        return numberOfAttributesFromOrder;
-    }
-
-    public void setNumberOfAttributesFromOrder(List<Integer> numberOfAttributesFromOrder) {
-        this.numberOfAttributesFromOrder = numberOfAttributesFromOrder;
-    }
-
     public List<String> getPositionOfOrder() {
         return positionOfOrder;
     }
@@ -162,14 +134,6 @@ public class FeatureVector {
 
     public void setNumberOfGroup(int numberOfGroup) {
         this.numberOfGroup = numberOfGroup;
-    }
-
-    public List<Integer> getNumberOfAttributesFromGroup() {
-        return numberOfAttributesFromGroup;
-    }
-
-    public void setNumberOfAttributesFromGroup(List<Integer> numberOfAttributesFromGroup) {
-        this.numberOfAttributesFromGroup = numberOfAttributesFromGroup;
     }
 
     public List<String> getPositionOfGroup() {
@@ -220,19 +184,43 @@ public class FeatureVector {
         this.numberOfAndOr = numberOfAndOr;
     }
 
-    public List<String> getProjectionElements() {
-        return projectionElements;
+    private int[] initializeTable(){
+        int[] table = new int[33];
+        for(int i=0; i<33; i++){
+            table[i] = 0;
+        }
+        return table;
     }
 
-    public void setProjectionElements(List<String> projectionElements) {
-        this.projectionElements = projectionElements;
-    }
-
-    public List<String> getAttributesElements() {
+    public int[] getAttributesElements() {
         return attributesElements;
     }
 
-    public void setAttributesElements(List<String> attributesElements) {
+    public void setAttributesElements(int[] attributesElements) {
         this.attributesElements = attributesElements;
+    }
+
+    public int[] getNumberOfAttributesFromSelection() {
+        return numberOfAttributesFromSelection;
+    }
+
+    public void setNumberOfAttributesFromSelection(int[] numberOfAttributesFromSelection) {
+        this.numberOfAttributesFromSelection = numberOfAttributesFromSelection;
+    }
+
+    public int[] getNumberOfAttributesFromOrder() {
+        return numberOfAttributesFromOrder;
+    }
+
+    public void setNumberOfAttributesFromOrder(int[] numberOfAttributesFromOrder) {
+        this.numberOfAttributesFromOrder = numberOfAttributesFromOrder;
+    }
+
+    public int[] getNumberOfAttributesFromGroup() {
+        return numberOfAttributesFromGroup;
+    }
+
+    public void setNumberOfAttributesFromGroup(int[] numberOfAttributesFromGroup) {
+        this.numberOfAttributesFromGroup = numberOfAttributesFromGroup;
     }
 }

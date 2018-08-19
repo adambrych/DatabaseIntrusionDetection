@@ -1,3 +1,6 @@
+import enums.QueryType;
+import enums.Tables;
+
 import java.io.*;
 
 public class Main {
@@ -62,7 +65,8 @@ public class Main {
             }
             if(value.endsWith(","))
                 value = value.substring(0, value.length()-1);
-            featureVector.getAttributesElements().add(value);
+            int tableIndex = getIndexFromPrefix(value);
+            featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
             featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
             index++;
         }
@@ -73,7 +77,7 @@ public class Main {
                 index = subSelect(splitedQuery, index, featureVector);
             else{
                 featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
-                featureVector.getProjectionElements().add(value);
+                //featureVector.getProjectionElements()[tableIndex]
             }
             if(index == splitedQuery.length)
                 break;
@@ -83,7 +87,7 @@ public class Main {
         if(index < splitedQuery.length && splitedQuery[index].equals("GROUP"))
             index = groupOperation(splitedQuery, index, featureVector);
         if(index < splitedQuery.length && splitedQuery[index].equals("ORDER"))
-            index = orderOperation(splitedQuery, index, featureVector);
+            orderOperation(splitedQuery, index, featureVector);
     }
 
     private static int subSelect(String[] splitedQuery, int index, FeatureVector featureVector){
@@ -91,14 +95,15 @@ public class Main {
             String value = splitedQuery[index];
             if(value.endsWith(","))
                 value = value.substring(0, value.length()-1);
-            featureVector.getAttributesElements().add(value);
+            int tableIndex = getIndexFromPrefix(value);
+            featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
             featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
             index++;
         }
         while(index < splitedQuery.length && !splitedQuery[index].equals("WHERE")){
             String value = splitedQuery[index];
             featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
-            featureVector.getProjectionElements().add(value);
+            //featureVector.getProjectionElements().add(value);
             index++;
         }
         index = whereSequence(splitedQuery, index, featureVector);
@@ -137,14 +142,16 @@ public class Main {
                 value = splitedQuery[index];
                 continue;
             }
-            featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes());
-            featureVector.getAttributesElements().add(value);
+            featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+            int tableIndex = getIndexFromPrefix(value);
+            featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
             index++;
             value = splitedQuery[index];
         }
         value = value.substring(0, value.length() - 1);
-        featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes());
-        featureVector.getAttributesElements().add(value);
+        featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+        int tableIndex = getIndexFromPrefix(value);
+        featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
 
         return index;
 
@@ -164,17 +171,52 @@ public class Main {
                 featureVector.setStringValues(featureVector.getStringValues()+1);
                 featureVector.setLengthOfStringValues(featureVector.getLengthOfStringValues()+value.length()-2);
             }
+            if(splitedQuery[i+1].equals("AND")||splitedQuery[i+1].equals("OR"))
+                featureVector.setNumberOfAndOr(featureVector.getNumberOfAndOr()+1);
             if(i+1<splitedQuery.length && (splitedQuery[i+1].equals("GROUP") || splitedQuery[i+1].equals("ORDER")))
                 break;
         }
         return i;
     }
 
-    private static void orderOperation(String[] splitedQuery, int index, FeatureVector featureVector){
-        
+    private static int orderOperation(String[] splitedQuery, int index, FeatureVector featureVector){
+        index=index+2;
+        while(index < splitedQuery.length && !splitedQuery[index].equals("ORDER")){
+            String value = splitedQuery[index];
+            if(value.equals("DESC") || value.equals("ASC")){
+                index++;
+                continue;
+            }
+            else{
+                if(value.endsWith(","))
+                    value = value.substring(0, value.length()-1);
+                featureVector.setNumberOfOrder(featureVector.getNumberOfOrder()+1);
+
+            }
+            index++;
+        }
+        return index;
     }
 
-    private static void groupOperation(String[] splitedQuery, int index, FeatureVector featureVector){
+    private static int groupOperation(String[] splitedQuery, int index, FeatureVector featureVector){
+        index=index+2;
+        while(index < splitedQuery.length){
+            String value = splitedQuery[index];
+            if(value.endsWith(","))
+                value = value.substring(0, value.length()-1);
+            featureVector.setNumberOfGroup(featureVector.getNumberOfGroup() + 1);
+            index++;
+        }
+        return index;
+    }
 
+    private static int getIndexFromPrefix(String value){
+        int index = 0;
+        String substring = "";
+        while(!substring.endsWith("_")){
+            substring = value.substring(0, index+1);
+            index++;
+        }
+        return Tables.indexByPrefix(substring);
     }
 }

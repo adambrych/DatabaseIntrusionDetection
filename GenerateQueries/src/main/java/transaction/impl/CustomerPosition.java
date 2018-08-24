@@ -55,7 +55,7 @@ public class CustomerPosition implements Transaction {
                 "CA_BAL, " +
                 "SUM(HS_QTY * LT_PRICE) " +
                 "from " +
-                "CUSTOMER_ACCOUNT left outer join " +
+                "CUSTOMER_ACCOUNT " +
                 "HOLDING_SUMMARY on HS_CA_ID = CA_ID, " +
                 "LAST_TRADE " +
                 "where " +

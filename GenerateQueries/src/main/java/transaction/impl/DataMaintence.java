@@ -24,7 +24,7 @@ public class DataMaintence implements Transaction {
                 String query2 = ROLE + "," + "update " +
                 "ACCOUNT_PERMISSION " +
                 "set " +
-                "AP_ACL = ”1111” " +
+                "AP_ACL = \"1111\" " +
                 "where " +
                 "AP_CA_ID = " + ColumnValue.getValue("AP_CA_ID") + " and " +
                 "AP_ACL = " + ColumnValue.getValue("AP_ACL");
@@ -32,7 +32,7 @@ public class DataMaintence implements Transaction {
                 String query3 = ROLE + "," + "update " +
                 "ACCOUNT_PERMISSION " +
                 "set " +
-                "AP_ACL = ”0011” " +
+                "AP_ACL = \"0011\" " +
                 "where " +
                 "AP_CA_ID = " + ColumnValue.getValue("AP_CA_ID") + " and " +
                 "AP_ACL = " + ColumnValue.getValue("AP_ACL");
@@ -58,14 +58,14 @@ public class DataMaintence implements Transaction {
                 String query6 = ROLE + "," + "update " +
                 "ADDRESS " +
                 "set " +
-                "AD_LINE2 = “Apt. 10C” " +
+                "AD_LINE2 = \"Apt. 10C\" " +
                 "where " +
                 "AD_ID = " + ColumnValue.getValue("AD_ID");
 
                 String query7 = ROLE + "," + "update " +
                 "ADDRESS " +
                 "set " +
-                "AD_LINE2 = “Apt. 22” " +
+                "AD_LINE2 = \"Apt. 22\" " +
                 "where " +
                 "AD_ID = " + ColumnValue.getValue("AD_ID");
 
@@ -79,14 +79,14 @@ public class DataMaintence implements Transaction {
                 String query9 = ROLE + "," + "update " +
                 "COMPANY " +
                 "set " +
-                "CO_SP_RATE = “ABA” " +
+                "CO_SP_RATE = \"ABA\" " +
                 "where " +
                 "CO_ID = " + ColumnValue.getValue("CO_ID");
 
                 String query10 = ROLE + "," + "update " +
                 "COMPANY " +
                 "set " +
-                "CO_SP_RATE = “AAA” " +
+                "CO_SP_RATE = \"AAA\" " +
                 "where " +
                 "CO_ID = " + ColumnValue.getValue("CO_ID");
 
@@ -120,19 +120,12 @@ public class DataMaintence implements Transaction {
                 "CX_C_ID = " + ColumnValue.getValue("CX_C_ID") + " and " +
                 "CX_TX_ID = " + ColumnValue.getValue("CX_TX_ID");
 
-                String query16 = ROLE + "," + "update " +
-                "DAILY_MARKET " +
-                "set " +
-                "DM_VOL = DM_VOL + " + ColumnValue.getValue("DM_VOL") + " " +
-                "where " +
-                "DM_S_SYMB = " + ColumnValue.getValue("DM_S_SYMB");
-
                 String query17 = ROLE + "," + "select " +
                 "count(*) " +
                 "from " +
                 "EXCHANGE " +
                 "where " +
-                "EX_DESC like “%LAST UPDATED%”";
+                "EX_DESC like \"%LAST UPDATED%\"";
 
                 String query19 = ROLE + "," + "update " +
                 "EXCHANGE " +
@@ -203,8 +196,8 @@ public class DataMaintence implements Transaction {
                 "WATCH_ITEM, " +
                 "WATCH_LIST " +
                 "where " +
-                "WL_C_ID = " + ColumnValue.getValue("WL_C_ID") + " " +
-                "WI_WL_ID = WL_ID and " +
+                "WL_C_ID = " + ColumnValue.getValue("WL_C_ID") + " and " +
+                "WI_WL_ID = WL_ID " +
                 "order by " +
                 "WI_S_SYMB asc" +
                 ")";
@@ -244,7 +237,6 @@ public class DataMaintence implements Transaction {
 
                 query14 + System.lineSeparator() +
                 query15 + System.lineSeparator() +
-                query16 + System.lineSeparator() +
                 query17 + System.lineSeparator() +
                 query19 + System.lineSeparator() +
                 query20 + System.lineSeparator() +

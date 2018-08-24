@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import Sequence.*;
@@ -40,6 +41,7 @@ public class Main {
         while((query = br.readLine()) != null) {
             query = query.toUpperCase();
             String[] splitedQuery = query.split(" ");
+            splitedQuery = joinString(splitedQuery);
             String firstWord = splitedQuery[0];
             String[] splitedFirstWord = firstWord.split(",");
             String role = splitedFirstWord[0];
@@ -132,7 +134,7 @@ public class Main {
             Write write = new Write();
             write.setColumn(value);
             sequence.getSequence().add(write);
-            while(!value.endsWith(",") && !value.equals("WHERE") && j+1<splitedQuery.length){
+            while((!value.endsWith(",") || !value.equals("WHERE")) && j+1<splitedQuery.length){
                 j++;
                 value = splitedQuery[j];
             }
@@ -158,6 +160,7 @@ public class Main {
             write.setColumn(value);
             sequence.getSequence().add(write);
             index++;
+            value = splitedQuery[index];
         }
         if(value.endsWith(")")) {
             value = value.substring(0, value.length() - 1);
@@ -172,7 +175,7 @@ public class Main {
     private static Sequence deleteOperation(String[] splitedQuery){
         Sequence sequence = new Sequence();
         int index=1;
-        while(!splitedQuery.equals("WHERE") && index<splitedQuery.length)
+        while(!splitedQuery[index].equals("WHERE") && index<splitedQuery.length)
             index++;
         if(splitedQuery[index].equals("WHERE"))
             whereSequence(splitedQuery, index, sequence);
@@ -304,5 +307,25 @@ public class Main {
             }
         }
         return rwSequences;
+    }
+
+    private static String[] joinString(String[] splitedQuery){
+        List<String> newSplitedQuery = new ArrayList<String>();
+        int index = 0;
+        while(index < splitedQuery.length){
+            StringBuilder builder = new StringBuilder();
+            builder.append(splitedQuery[index]);
+            if(splitedQuery[index].startsWith("\"") && (!splitedQuery[index].endsWith("\"") && !splitedQuery[index].endsWith("\",") && !splitedQuery[index].endsWith("\")"))){
+                do{
+                    index++;
+                    builder.append(splitedQuery[index]);
+                }
+                while(!splitedQuery[index].endsWith("\"") && !splitedQuery[index].endsWith("\",") && !splitedQuery[index].endsWith("\")"));
+            }
+            newSplitedQuery.add(builder.toString());
+            index++;
+        }
+        String[] array = Arrays.copyOf(newSplitedQuery.toArray(), newSplitedQuery.size(), String[].class);
+        return array ;
     }
 }

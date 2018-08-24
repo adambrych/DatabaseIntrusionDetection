@@ -33,13 +33,7 @@ public class MarketWatch implements Transaction {
                         "where " +
                         "IN_NAME = " + ColumnValue.getValue("IN_NAME") +
                         " and " +
-                        "CO_IN_ID = IN_ID and " +
-                        "CO_ID between (" +
-                        ColumnValue.getValue("CO_ID") +
-                        " and " +
-                        ColumnValue.getValue("CO_ID") +
-                        " and " +
-                        "S_CO_ID = CO_ID)";
+                        "CO_IN_ID = IN_ID";
 
         String query3 = ROLE + "," +
                 "select " +

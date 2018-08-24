@@ -89,7 +89,7 @@ public class TradeResult implements Transaction {
                 "H_CA_ID = " + ColumnValue.getValue("H_CA_ID")+
                         " and " +
                 "H_S_SYMB = " + ColumnValue.getValue("H_S_SYMB")+
-                "order by " +
+                " order by " +
                 "H_DTS desc";
 
                 String query5 =  ROLE + "," +"select " +

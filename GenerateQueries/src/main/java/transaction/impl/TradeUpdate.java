@@ -92,7 +92,7 @@ public class TradeUpdate implements Transaction{
                 "T_DTS >= " + ColumnValue.getValue("T_DTS") +
                 " and " +
                 "T_DTS <= " + ColumnValue.getValue("T_DTS") +
-                "order by " +
+                " order by " +
                 "T_DTS asc";
 
                 String query2=ROLE + "," +"select " +

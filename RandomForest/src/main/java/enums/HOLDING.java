@@ -13,4 +13,8 @@ public enum HOLDING  implements Table{
     HOLDING(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

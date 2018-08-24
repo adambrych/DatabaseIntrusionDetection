@@ -10,4 +10,8 @@ public enum INDUSTRY  implements Table{
     INDUSTRY(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

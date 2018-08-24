@@ -11,4 +11,8 @@ public enum CASH_TRANSACTION implements Table {
     CASH_TRANSACTION(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

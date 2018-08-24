@@ -145,10 +145,37 @@ public class Main {
     }
 
     private static Sequence insertOperation(String[] splitedQuery){
+        Sequence sequence = new Sequence();
+        int index=3;
+        String value = splitedQuery[index];
+        while(!value.endsWith(")")){
+            if(value.startsWith("("))
+                value = value.substring(1);
+            if(value.endsWith(","))
+                value = value.substring(0, value.length()-1);
+
+            Write write = new Write();
+            write.setColumn(value);
+            sequence.getSequence().add(write);
+            index++;
+        }
+        if(value.endsWith(")")) {
+            value = value.substring(0, value.length() - 1);
+
+            Write write = new Write();
+            write.setColumn(value);
+            sequence.getSequence().add(write);
+        }
         return new Sequence();
     }
 
     private static Sequence deleteOperation(String[] splitedQuery){
+        Sequence sequence = new Sequence();
+        int index=1;
+        while(!splitedQuery.equals("WHERE") && index<splitedQuery.length)
+            index++;
+        if(splitedQuery[index].equals("WHERE"))
+            whereSequence(splitedQuery, index, sequence);
         return new Sequence();
     }
 

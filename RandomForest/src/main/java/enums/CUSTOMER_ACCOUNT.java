@@ -13,4 +13,8 @@ public enum CUSTOMER_ACCOUNT implements Table {
     CUSTOMER_ACCOUNT(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

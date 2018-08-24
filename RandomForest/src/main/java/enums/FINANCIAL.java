@@ -21,4 +21,8 @@ public enum FINANCIAL  implements Table{
     FINANCIAL(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

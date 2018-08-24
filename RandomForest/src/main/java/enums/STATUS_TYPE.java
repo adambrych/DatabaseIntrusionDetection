@@ -9,4 +9,8 @@ public enum STATUS_TYPE  implements Table{
     STATUS_TYPE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

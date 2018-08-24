@@ -10,4 +10,8 @@ public enum ZIP_CODE implements Table {
     ZIP_CODE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

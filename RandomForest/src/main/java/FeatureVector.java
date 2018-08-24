@@ -5,7 +5,7 @@ public class FeatureVector {
     private int queryType;
     private int length;
     private int numberOfProjections;
-    private String projections;
+    private int projections;
     private int numberOfAttributes;
     private int[] attributesElements;
     private int[] positionOfAttributes;
@@ -28,7 +28,7 @@ public class FeatureVector {
         this.setQueryType(type);
         this.setLength(0);
         this.setNumberOfProjections(0);
-        setProjections("");
+        setProjections(0);
         setNumberOfAttributes(0);
         setPositionOfAttributes(initializeTable());
         setNumberOfSelection(0);
@@ -72,11 +72,11 @@ public class FeatureVector {
         this.numberOfProjections = numberOfProjections;
     }
 
-    public String getProjections() {
+    public int getProjections() {
         return projections;
     }
 
-    public void setProjections(String projections) {
+    public void setProjections(int projections) {
         this.projections = projections;
     }
 

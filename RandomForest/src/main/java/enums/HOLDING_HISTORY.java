@@ -12,4 +12,8 @@ public enum HOLDING_HISTORY  implements Table{
         this.index = index;
     }
 
+    public int getIndex(){
+        return index;
+    }
+
 }

@@ -14,4 +14,8 @@ public enum NEWS_ITEM  implements Table{
     NEWS_ITEM(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

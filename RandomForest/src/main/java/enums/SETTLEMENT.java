@@ -11,4 +11,8 @@ public enum SETTLEMENT  implements Table{
     SETTLEMENT(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

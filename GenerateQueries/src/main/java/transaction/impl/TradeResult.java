@@ -157,8 +157,7 @@ public class TradeResult implements Transaction {
                 "HOLDING_SUMMARY " +
                 "where " +
                 "HS_CA_ID = " + ColumnValue.getValue("HS_CA_ID")+ " and "+
-                "HS_S_SYMB = " + ColumnValue.getValue("HS_S_SYMB")+ 
-                "}";
+                "HS_S_SYMB = " + ColumnValue.getValue("HS_S_SYMB");
 
                 String query12 =  ROLE + "," +"insert into " +
                 "HOLDING_SUMMARY (" +

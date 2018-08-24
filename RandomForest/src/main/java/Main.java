@@ -1,4 +1,5 @@
 import enums.QueryType;
+import enums.Table;
 import enums.Tables;
 
 import java.io.*;
@@ -68,6 +69,7 @@ public class Main {
             int tableIndex = getIndexFromPrefix(value);
             featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
             featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+            setAttributesElement(featureVector, value);
             index++;
         }
         index++;
@@ -77,7 +79,8 @@ public class Main {
                 index = subSelect(splitedQuery, index, featureVector);
             else{
                 featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
-                //featureVector.getProjectionElements()[tableIndex]
+                int tableIndex = getIndexFromPrefix(value);
+                featureVector.setProjections(featureVector.getProjections() + 2^tableIndex);
             }
             if(index == splitedQuery.length)
                 break;
@@ -98,12 +101,14 @@ public class Main {
             int tableIndex = getIndexFromPrefix(value);
             featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
             featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+            setAttributesElement(featureVector, value);
             index++;
         }
         while(index < splitedQuery.length && !splitedQuery[index].equals("WHERE")){
             String value = splitedQuery[index];
             featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
-            //featureVector.getProjectionElements().add(value);
+            int tableIndex = getIndexFromPrefix(value);
+            featureVector.setProjections(featureVector.getProjections() + 2^tableIndex);
             index++;
         }
         index = whereSequence(splitedQuery, index, featureVector);
@@ -115,22 +120,110 @@ public class Main {
         Query query = new Query(QueryType.UPDATE);
         FeatureVector featureVector = query.getFeatureVector();
         featureVector.setLength(queryString.length());
-        int index = 1;
+        int index = 2;
+        String value = splitedQuery[index];
+        featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
+        int tableIndex = getIndexFromPrefix(value);
+        featureVector.setProjections(featureVector.getProjections() + 2^tableIndex);
+        index = index + 2;
+        while(!splitedQuery[index].equals("WHERE") && index < splitedQuery.length){
+            value = splitedQuery[index];
+            tableIndex = getIndexFromPrefix(value);
+            featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
+            featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+            setAttributesElement(featureVector, value);
+
+            index = index + 2;
+            if(value.endsWith(","))
+                value = value.substring(0, value.length()-1);
+            if(value.matches("-?\\d+(\\.\\d+)?")){
+                featureVector.setNumberOfNumericValues(featureVector.getNumberOfNumericValues()+1);
+            }
+            else if(value.startsWith("\"") && value.endsWith("\"")){
+                featureVector.setStringValues(featureVector.getStringValues()+1);
+                featureVector.setLengthOfStringValues(featureVector.getLengthOfStringValues()+value.length()-2);
+            }
+            index++;
+
+        }
+        if(splitedQuery[index].equals("WHERE"))
+            whereSequence(splitedQuery, index, featureVector);
     }
 
     private static void insertOperation(String[] splitedQuery, String queryString){
         Query query = new Query(QueryType.INSERT);
         FeatureVector featureVector = query.getFeatureVector();
         featureVector.setLength(queryString.length());
-        int index = 1;
+        int index = 2;
+        String value = splitedQuery[index];
+        featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
+        int tableIndex = getIndexFromPrefix(value);
+        featureVector.setProjections(featureVector.getProjections() + 2^tableIndex);
+        index++;
+        while(!value.endsWith(")")){
+            value = splitedQuery[index];
+            if(value.startsWith("("))
+                value = value.substring(1);
+            if(value.endsWith(","))
+                value = value.substring(0, value.length()-1);
+
+            tableIndex = getIndexFromPrefix(value);
+            featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex]+1;
+            featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes()+1);
+            setAttributesElement(featureVector, value);
+            index++;
+        }
+        if(value.endsWith(")")) {
+            value = value.substring(0, value.length() - 1);
+
+            tableIndex = getIndexFromPrefix(value);
+            featureVector.getAttributesElements()[tableIndex] = featureVector.getAttributesElements()[tableIndex] + 1;
+            featureVector.setNumberOfAttributes(featureVector.getNumberOfAttributes() + 1);
+            setAttributesElement(featureVector, value);
+
+        }
+        index = index+2;
+
+        while(!value.endsWith(")")){
+            value = splitedQuery[index];
+            if(value.startsWith("("))
+                value = value.substring(1);
+            if(value.endsWith(","))
+                value = value.substring(0, value.length()-1);
+            if(value.matches("-?\\d+(\\.\\d+)?")){
+                featureVector.setNumberOfNumericValues(featureVector.getNumberOfNumericValues()+1);
+            }
+            else if(value.startsWith("\"") && value.endsWith("\"")){
+                featureVector.setStringValues(featureVector.getStringValues()+1);
+                featureVector.setLengthOfStringValues(featureVector.getLengthOfStringValues()+value.length()-2);
+            }
+            index++;
+
+        }
+        if(value.endsWith(")")) {
+            value = value.substring(0, value.length() - 1);
+            if(value.matches("-?\\d+(\\.\\d+)?")){
+                featureVector.setNumberOfNumericValues(featureVector.getNumberOfNumericValues()+1);
+            }
+            else if(value.startsWith("\"") && value.endsWith("\"")){
+                featureVector.setStringValues(featureVector.getStringValues()+1);
+                featureVector.setLengthOfStringValues(featureVector.getLengthOfStringValues()+value.length()-2);
+            }
+        }
+
     }
 
     private static void deleteOperation(String[] splitedQuery, String queryString){
         Query query = new Query(QueryType.DELETE);
         FeatureVector featureVector = query.getFeatureVector();
         featureVector.setLength(queryString.length());
-        int index = 1;
-
+        int index = 2;
+        String value = splitedQuery[index];
+        featureVector.setNumberOfProjections(featureVector.getNumberOfProjections() + 1);
+        int tableIndex = getIndexFromPrefix(value);
+        featureVector.setProjections(featureVector.getProjections() + 2^tableIndex);
+        index++;
+        whereSequence(splitedQuery, index, featureVector);
     }
 
     private static int sumOperation(String[] splitedQuery, int index, FeatureVector featureVector){
@@ -158,10 +251,12 @@ public class Main {
     }
 
     private static int whereSequence(String[] splitedQuery, int index, FeatureVector featureVector){
-        index=index+3;
+        index=index+1;
         int i;
-        for(i=index; i<splitedQuery.length; i=i+4){
+        for(i=index; i<splitedQuery.length; i=i+2){
             String value = splitedQuery[i];
+            setSelectionElement(featureVector, value);
+            i = i+2;
             if(value.equals("(SELECT"))
                 i = subSelect(splitedQuery, i, featureVector);
             if(value.matches("-?\\d+(\\.\\d+)?")){
@@ -191,7 +286,7 @@ public class Main {
                 if(value.endsWith(","))
                     value = value.substring(0, value.length()-1);
                 featureVector.setNumberOfOrder(featureVector.getNumberOfOrder()+1);
-
+                setOrderElement(featureVector, value);
             }
             index++;
         }
@@ -205,6 +300,7 @@ public class Main {
             if(value.endsWith(","))
                 value = value.substring(0, value.length()-1);
             featureVector.setNumberOfGroup(featureVector.getNumberOfGroup() + 1);
+            setGroupElement(featureVector, value);
             index++;
         }
         return index;
@@ -218,5 +314,67 @@ public class Main {
             index++;
         }
         return Tables.indexByPrefix(substring);
+    }
+
+    private static Tables findTable(String value){
+        int index = 0;
+        String substring = "";
+        while(!substring.endsWith("_")){
+            substring = value.substring(0, index+1);
+            index++;
+        }
+        return Tables.tableByPrefix(substring);
+    }
+
+    private static void setAttributesElement(FeatureVector featureVector, String columnName){
+        Tables tables = findTable(columnName);
+        int tableIndex = tables.getPosition();
+        int columnIndex = 0;
+        for(Table table : tables.getTable()){
+            if(table.toString().equals(columnName)){
+                columnIndex = table.getIndex();
+                break;
+            }
+        }
+        featureVector.getPositionOfAttributes()[tableIndex] = featureVector.getPositionOfAttributes()[tableIndex] + 2^columnIndex;
+    }
+
+    private static void setSelectionElement(FeatureVector featureVector, String columnName){
+        Tables tables = findTable(columnName);
+        int tableIndex = tables.getPosition();
+        int columnIndex = 0;
+        for(Table table : tables.getTable()){
+            if(table.toString().equals(columnName)){
+                columnIndex = table.getIndex();
+                break;
+            }
+        }
+        featureVector.getPositionOfSelection()[tableIndex] = featureVector.getPositionOfSelection()[tableIndex] + 2^columnIndex;
+    }
+
+    private static void setGroupElement(FeatureVector featureVector, String columnName){
+        Tables tables = findTable(columnName);
+        int tableIndex = tables.getPosition();
+        int columnIndex = 0;
+        for(Table table : tables.getTable()){
+            if(table.toString().equals(columnName)){
+                columnIndex = table.getIndex();
+                break;
+            }
+        }
+        featureVector.getPositionOfGroup()[tableIndex] = featureVector.getPositionOfGroup()[tableIndex] + 2^columnIndex;
+    }
+
+    private static void setOrderElement(FeatureVector featureVector, String columnName){
+        Tables tables = findTable(columnName);
+        int tableIndex = tables.getPosition();
+        int columnIndex = 0;
+        for(Table table : tables.getTable()){
+            if(table.toString().equals(columnName)){
+                columnIndex = table.getIndex();
+                break;
+            }
+        }
+        featureVector.getPositionOfOrder()[tableIndex] = featureVector.getPositionOfOrder()[tableIndex] + 2^columnIndex;
     }
 }

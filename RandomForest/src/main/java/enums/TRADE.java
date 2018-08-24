@@ -22,4 +22,8 @@ public enum TRADE  implements Table{
     TRADE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

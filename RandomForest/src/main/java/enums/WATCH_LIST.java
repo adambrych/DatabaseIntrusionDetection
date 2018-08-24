@@ -9,4 +9,8 @@ public enum WATCH_LIST implements Table {
     WATCH_LIST(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

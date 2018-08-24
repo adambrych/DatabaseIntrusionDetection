@@ -13,4 +13,8 @@ public enum TRADE_REQUEST implements Table {
     TRADE_REQUEST(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

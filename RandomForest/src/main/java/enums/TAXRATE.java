@@ -10,4 +10,8 @@ public enum TAXRATE  implements Table{
     TAXRATE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

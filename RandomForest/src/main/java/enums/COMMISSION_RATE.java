@@ -13,4 +13,8 @@ public enum COMMISSION_RATE implements Table {
     COMMISSION_RATE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

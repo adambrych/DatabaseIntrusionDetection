@@ -9,4 +9,8 @@ public enum NEWS_XREF implements Table {
     NEWS_XREF(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

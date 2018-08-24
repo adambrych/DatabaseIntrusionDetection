@@ -10,4 +10,8 @@ public enum HOLDING_SUMMARY  implements Table{
     HOLDING_SUMMARY(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

@@ -16,4 +16,8 @@ public enum COMPANY implements Table {
     COMPANY(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

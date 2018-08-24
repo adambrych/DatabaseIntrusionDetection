@@ -10,4 +10,8 @@ public enum COMPANY_COMPETITOR implements Table {
     COMPANY_COMPETITOR(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

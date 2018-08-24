@@ -31,4 +31,8 @@ public enum CUSTOMER  implements Table{
     CUSTOMER(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

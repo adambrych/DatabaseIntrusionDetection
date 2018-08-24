@@ -40,16 +40,48 @@ public enum Tables {
     private Table[] table;
 
     Tables(int position, String prefix, Table[] table){
-        this.position = position;
-        this.prefix = prefix;
-        this.table = table;
+        this.setPosition(position);
+        this.setPrefix(prefix);
+        this.setTable(table);
     }
 
     public static int indexByPrefix(String prefix){
         for(Tables table : values()){
-            if(table.prefix.equals(prefix))
-                return table.position;
+            if(table.getPrefix().equals(prefix))
+                return table.getPosition();
         }
         return 0;
+    }
+
+    public static Tables tableByPrefix(String prefix){
+        for(Tables table : values()){
+            if(table.getPrefix().equals(prefix))
+                return table;
+        }
+        return null;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public Table[] getTable() {
+        return table;
+    }
+
+    public void setTable(Table[] table) {
+        this.table = table;
     }
 }

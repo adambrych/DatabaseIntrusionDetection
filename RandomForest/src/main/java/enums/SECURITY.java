@@ -23,4 +23,8 @@ public enum SECURITY  implements Table{
     SECURITY(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

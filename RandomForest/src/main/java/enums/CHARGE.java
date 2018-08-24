@@ -10,4 +10,8 @@ public enum CHARGE implements Table {
     CHARGE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

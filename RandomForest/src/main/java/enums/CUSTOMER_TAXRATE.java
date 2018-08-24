@@ -9,4 +9,8 @@ public enum CUSTOMER_TAXRATE  implements Table{
     CUSTOMER_TAXRATE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

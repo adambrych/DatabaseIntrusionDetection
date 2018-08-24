@@ -10,4 +10,8 @@ public enum TRADE_HISTORY implements Table {
     TRADE_HISTORY(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

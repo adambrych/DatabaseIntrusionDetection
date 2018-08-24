@@ -11,4 +11,8 @@ public enum TRADE_TYPE implements Table {
     TRADE_TYPE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

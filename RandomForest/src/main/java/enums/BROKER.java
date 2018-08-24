@@ -12,4 +12,8 @@ public enum BROKER implements Table {
     BROKER(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

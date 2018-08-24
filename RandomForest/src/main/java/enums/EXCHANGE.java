@@ -14,4 +14,8 @@ public enum EXCHANGE  implements Table{
     EXCHANGE(int index){
         this.index = index;
     }
+
+    public int getIndex(){
+        return index;
+    }
 }

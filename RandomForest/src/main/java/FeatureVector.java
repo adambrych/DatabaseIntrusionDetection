@@ -24,6 +24,70 @@ public class FeatureVector {
     private int numberOfJoins;
     private int numberOfAndOr;
 
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(queryType);
+        builder.append(",");
+        builder.append(length);
+        builder.append(",");
+        builder.append(numberOfProjections);
+        builder.append(",");
+        builder.append(projections);
+        builder.append(",");
+        builder.append(numberOfAttributes);
+        builder.append(",");
+        for(int i=0; i<attributesElements.length; i++){
+            builder.append(attributesElements[i]);
+            builder.append(",");
+        }
+        for(int i=0; i<positionOfAttributes.length; i++){
+            builder.append(positionOfAttributes[i]);
+            builder.append(",");
+        }
+        builder.append(numberOfSelection);
+        builder.append(",");
+        for(int i=0; i<numberOfAttributesFromSelection.length; i++){
+            builder.append(numberOfAttributesFromSelection[i]);
+            builder.append(",");
+        }
+        for(int i=0; i<positionOfSelection.length; i++){
+            builder.append(positionOfSelection[i]);
+            builder.append(",");
+        }
+        builder.append(numberOfOrder);
+        builder.append(",");
+
+        for(int i=0; i<numberOfAttributesFromOrder.length; i++){
+            builder.append(numberOfAttributesFromOrder[i]);
+            builder.append(",");
+        }
+        for(int i=0; i<positionOfOrder.length; i++){
+            builder.append(positionOfOrder[i]);
+            builder.append(",");
+        }
+        builder.append(numberOfGroup);
+        builder.append(",");
+        for(int i=0; i<numberOfAttributesFromGroup.length; i++){
+            builder.append(numberOfAttributesFromGroup[i]);
+            builder.append(",");
+        }
+        for(int i=0; i<positionOfGroup.length; i++){
+            builder.append(positionOfGroup[i]);
+            builder.append(",");
+        }
+        builder.append(stringValues);
+        builder.append(",");
+        builder.append(lengthOfStringValues);
+        builder.append(",");
+        builder.append(numberOfNumericValues);
+        builder.append(",");
+        builder.append(numberOfJoins);
+        builder.append(",");
+        builder.append(numberOfAndOr);
+        return builder.toString();
+    }
+
     public FeatureVector(int type){
         this.setQueryType(type);
         this.setLength(0);

@@ -1,11 +1,13 @@
 import enums.QueryType;
 import enums.Table;
 import enums.Tables;
+import weka.classifiers.Evaluation;
+import weka.classifiers.trees.RandomForest;
+import weka.core.Instances;
+import weka.core.converters.ArffLoader;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -14,10 +16,16 @@ public class Main {
     private static final String UPDATE = "UPDATE";
     private static final String INSERT = "INSERT";
     private static final String DELETE = "DELETE";
+    private static final int type = 1;
 
     public static void main(String[] args) {
         try {
-            readQueriesFromFile();
+            if(type == 1) {
+                readQueriesFromFile();
+                process();
+            }
+            else
+                process();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -42,8 +50,12 @@ public class Main {
             String[] splitedFirstWord = firstWord.split(",");
             String role = splitedFirstWord[0];
             String type = splitedFirstWord[1];
-            queries.add(prepareOperation(splitedQuery, type, query));
+            Query preparedQuery = prepareOperation(splitedQuery, type, query);
+            preparedQuery.setRole(role);
+            queries.add(preparedQuery);
         }
+        generateAffr(queries);
+        generateTextAffr(queries);
     }
 
     private static Query prepareOperation(String[] splitedQuery, String type, String query){
@@ -453,5 +465,220 @@ public class Main {
         }
         String[] array = Arrays.copyOf(newSplitedQuery.toArray(), newSplitedQuery.size(), String[].class);
         return array ;
+    }
+
+    private static void generateAffr(List<Query> queries){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("trainingSet.affr", true));
+            writer.append("@Relation test");
+            writer.newLine();
+            writer.append("@attribute queryType {1,2,3,4}");
+            writer.newLine();
+            writer.append("@attribute length numeric");
+            writer.newLine();
+            writer.append("@attribute numberOfProjections numeric");
+            writer.newLine();
+            writer.append("@attribute projections numeric");
+            writer.newLine();
+            writer.append("@attribute numberOfAttributes numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributes").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfAttributes").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+            writer.append("@attribute numberOfSelection numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributesFromSelection").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfSelection").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+
+
+            writer.append("@attribute numberOfOrder numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributesFromOrder").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfOrder").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+
+            writer.append("@attribute numberOfGroup numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributesFromGroup").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfGroup").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+            writer.append("@attribute stringValues numeric");
+            writer.newLine();
+
+            writer.append("@attribute lengthOfStringValues numeric");
+            writer.newLine();
+
+            writer.append("@attribute numberOfNumericValues numeric");
+            writer.newLine();
+
+            writer.append("@attribute numberOfJoins numeric");
+            writer.newLine();
+
+            writer.append("@attribute numberOfAndOr numeric");
+            writer.newLine();
+            writer.append("@attribute role {1,2,4,5,6,7,8,9,10,11}");
+            writer.newLine();
+
+            writer.append("@data");
+            writer.newLine();
+            for(Query query : queries){
+                writer.append(query.toString());
+                writer.newLine();
+            }
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void generateTextAffr(List<Query> queries){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("testSet.affr", true));
+            writer.append("@Relation test");
+            writer.newLine();
+            writer.append("@attribute queryType {1,2,3,4}");
+            writer.newLine();
+            writer.append("@attribute length numeric");
+            writer.newLine();
+            writer.append("@attribute numberOfProjections numeric");
+            writer.newLine();
+            writer.append("@attribute projections numeric");
+            writer.newLine();
+            writer.append("@attribute numberOfAttributes numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributes").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfAttributes").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+            writer.append("@attribute numberOfSelection numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributesFromSelection").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfSelection").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+
+
+            writer.append("@attribute numberOfOrder numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributesFromOrder").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfOrder").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+
+            writer.append("@attribute numberOfGroup numeric");
+            writer.newLine();
+            for(int i=0; i<33; i++){
+                writer.append("@attribute numberOfAttributesFromGroup").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+            for(int i=0; i<33; i++){
+                writer.append("@attribute positionOfGroup").append(Integer.toString(i)).append(" numeric");
+                writer.newLine();
+            }
+
+            writer.append("@attribute stringValues numeric");
+            writer.newLine();
+
+            writer.append("@attribute lengthOfStringValues numeric");
+            writer.newLine();
+
+            writer.append("@attribute numberOfNumericValues numeric");
+            writer.newLine();
+
+            writer.append("@attribute numberOfJoins numeric");
+            writer.newLine();
+
+            writer.append("@attribute numberOfAndOr numeric");
+            writer.newLine();
+            writer.append("@attribute role {1,2,4,5,6,7,8,9,10,11}");
+            writer.newLine();
+
+            writer.append("@data");
+            writer.newLine();
+            for(Query query : queries){
+                writer.append(query.getFeatureVector().toString());
+                writer.append(",?");
+                writer.newLine();
+            }
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Instances getDataSet(String fileName) throws IOException {
+        ArffLoader loader = new ArffLoader();
+        InputStream inputStream = new FileInputStream(fileName);
+        loader.setSource(inputStream);
+        Instances dataSet = loader.getDataSet();
+        dataSet.setClassIndex(dataSet.numAttributes()-1);
+        return dataSet;
+    }
+
+    public static void process() {
+        try {
+            Instances trainingDataSet = getDataSet("trainingSet.affr");
+            Instances testingDataSet = getDataSet("testSet.affr");
+            RandomForest forest=new RandomForest();
+            forest.buildClassifier(trainingDataSet);
+            for(int i=0; i<testingDataSet.numInstances(); i++)
+                System.out.println(forest.classifyInstance(testingDataSet.get(i))+1);
+            Evaluation eval = new Evaluation(trainingDataSet);
+            eval.crossValidateModel(forest, trainingDataSet, 10, new Random(10));
+
+            System.out.println("** Decision Tress Evaluation with Datasets **");
+            System.out.println(eval.toSummaryString());
+            System.out.print(" the expression for the input data as per alogorithm is ");
+            System.out.println(forest);
+            System.out.println(eval.toMatrixString());
+            System.out.println(eval.toClassDetailsString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

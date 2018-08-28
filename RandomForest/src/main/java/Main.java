@@ -1,17 +1,25 @@
 import enums.QueryType;
 import enums.Table;
 import enums.Tables;
+import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.meta.AdaBoostM1;
+import weka.classifiers.pmml.consumer.NeuralNetwork;
+import weka.classifiers.pmml.consumer.Regression;
+import weka.classifiers.trees.J48;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
+import weka.core.pmml.jaxbbindings.DecisionTree;
 
 import java.io.*;
 import java.util.*;
 
 public class Main {
 
-    private static final String QUERY_FILE = "queriesSingle.txt";
+    private static final String QUERY_FILE = "queries10.txt";
     private static final String SELECT = "SELECT";
     private static final String UPDATE = "UPDATE";
     private static final String INSERT = "INSERT";
@@ -469,7 +477,7 @@ public class Main {
 
     private static void generateAffr(List<Query> queries){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("trainingSet.affr", true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("trainingSet.affr", false));
             writer.append("@Relation test");
             writer.newLine();
             writer.append("@attribute queryType {1,2,3,4}");
@@ -559,7 +567,7 @@ public class Main {
 
     private static void generateTextAffr(List<Query> queries){
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("testSet.affr", true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("testSet.affr", false));
             writer.append("@Relation test");
             writer.newLine();
             writer.append("@attribute queryType {1,2,3,4}");
@@ -660,20 +668,75 @@ public class Main {
     public static void process() {
         try {
             Instances trainingDataSet = getDataSet("trainingSet.affr");
-            Instances testingDataSet = getDataSet("testSet.affr");
+            //Instances testingDataSet = getDataSet("testSet.affr");
+
+
             RandomForest forest=new RandomForest();
             forest.buildClassifier(trainingDataSet);
-            for(int i=0; i<testingDataSet.numInstances(); i++)
-                System.out.println(forest.classifyInstance(testingDataSet.get(i))+1);
-            Evaluation eval = new Evaluation(trainingDataSet);
-            eval.crossValidateModel(forest, trainingDataSet, 10, new Random(10));
+            //for(int i=0; i<testingDataSet.numInstances(); i++)
+            //    System.out.println(forest.classifyInstance(testingDataSet.get(i))+1);
+            Evaluation evalRandomForest = new Evaluation(trainingDataSet);
+            evalRandomForest.crossValidateModel(forest, trainingDataSet, 10, new Random(10));
 
             System.out.println("** Decision Tress Evaluation with Datasets **");
-            System.out.println(eval.toSummaryString());
+            System.out.println(evalRandomForest.toSummaryString());
             System.out.print(" the expression for the input data as per alogorithm is ");
             System.out.println(forest);
-            System.out.println(eval.toMatrixString());
-            System.out.println(eval.toClassDetailsString());
+            System.out.println(evalRandomForest.toMatrixString());
+            System.out.println(evalRandomForest.toClassDetailsString());
+
+
+            /** Classifier here is Linear Regression */
+            Classifier classifierJ48 = new J48();
+            //J48,Id3
+            /** */
+            classifierJ48.buildClassifier(trainingDataSet);
+            /**
+             * train the alogorithm with the training data and evaluate the
+             * algorithm with testing data
+             */
+            Evaluation evalJ48 = new Evaluation(trainingDataSet);
+            evalJ48.crossValidateModel(classifierJ48, trainingDataSet, 10, new Random(10));
+            /** Print the algorithm summary */
+            System.out.println("** Decision Tress Evaluation with Datasets **");
+            System.out.println(evalJ48.toSummaryString());
+            System.out.print(" the expression for the input data as per alogorithm is ");
+            System.out.println(classifierJ48);
+            System.out.println(evalJ48.toMatrixString());
+            System.out.println(evalJ48.toClassDetailsString());
+
+            Classifier ibk = new IBk(1);
+            ibk.buildClassifier(trainingDataSet);
+
+            System.out.println(ibk);
+
+            Evaluation evalKNN = new Evaluation(trainingDataSet);
+            evalKNN.crossValidateModel(ibk, trainingDataSet, 10, new Random(10));
+            /** Print the algorithm summary */
+            System.out.println("** KNN Demo  **");
+            System.out.println(evalKNN.toSummaryString());
+            System.out.println(evalKNN.toClassDetailsString());
+            System.out.println(evalKNN.toMatrixString());
+
+
+
+
+            Classifier classifierNB = new NaiveBayes();
+            /** */
+            classifierNB.buildClassifier(trainingDataSet);
+            /**
+             * train the alogorithm with the training data and evaluate the
+             * algorithm with testing data
+             */
+            Evaluation evalNB= new Evaluation(trainingDataSet);
+            evalNB.crossValidateModel(classifierNB, trainingDataSet, 10, new Random(10));
+            /** Print the algorithm summary */
+            System.out.println("** Linear Regression Evaluation with Datasets **");
+            System.out.println(evalNB.toSummaryString());
+            System.out.print(" the expression for the input data as per alogorithm is ");
+            System.out.println(classifierNB);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

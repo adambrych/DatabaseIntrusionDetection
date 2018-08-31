@@ -19,7 +19,7 @@ import java.util.*;
 
 public class Main {
 
-    private static final String QUERY_FILE = "queries10.txt";
+    private static final String QUERY_FILE = "queries50.txt";
     private static final String SELECT = "SELECT";
     private static final String UPDATE = "UPDATE";
     private static final String INSERT = "INSERT";

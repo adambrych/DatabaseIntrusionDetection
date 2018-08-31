@@ -6,11 +6,11 @@ public class Node {
     private Node next;
 
     public Node(Fingerprint fingerprint){
-        this.fingerprint = fingerprint;
+        this.setFingerprint(fingerprint);
     }
 
     public String getRole(){
-        return fingerprint.role;
+        return getFingerprint().role;
     }
 
     public void setStart(){
@@ -21,4 +21,15 @@ public class Node {
         this.next = next;
     }
 
+    public Fingerprint getFingerprint() {
+        return fingerprint;
+    }
+
+    public void setFingerprint(Fingerprint fingerprint) {
+        this.fingerprint = fingerprint;
+    }
+
+    public Node getNext() {
+        return next;
+    }
 }

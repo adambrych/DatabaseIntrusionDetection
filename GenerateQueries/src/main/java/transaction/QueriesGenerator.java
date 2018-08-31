@@ -8,7 +8,7 @@ import java.util.List;
 
 public class QueriesGenerator {
 
-    private int transactionNumber = 10;
+    private int transactionNumber = 50;
 
     private BrokerVolume brokerVolume = new BrokerVolume();
     private CustomerPosition customerPosition = new CustomerPosition();
@@ -45,7 +45,7 @@ public class QueriesGenerator {
         BufferedWriter bw = null;
         PrintWriter out = null;
         try {
-            fw = new FileWriter("queries10.txt", true);
+            fw = new FileWriter("queries50.txt", true);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
             out.print(queries);

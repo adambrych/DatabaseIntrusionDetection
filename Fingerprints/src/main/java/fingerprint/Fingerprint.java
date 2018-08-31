@@ -6,7 +6,7 @@ public class Fingerprint {
     private static final String SELECT = "SELECT";
 
 
-    public Pattern pattern;
+    private Pattern pattern;
     public String role;
 
     public Fingerprint(String query){
@@ -19,7 +19,7 @@ public class Fingerprint {
         query = changeQueryForSelectAll(query);
         query = changeQueryVariables(query);
         query = prepareExpression(query);
-        pattern = Pattern.compile(query);
+        setPattern(Pattern.compile(query));
     }
 
     private String changeQueryForSelectAll(String query){
@@ -69,5 +69,13 @@ public class Fingerprint {
 
     private static Boolean isNumeric(String value){
         return value.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    public Pattern getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(Pattern pattern) {
+        this.pattern = pattern;
     }
 }

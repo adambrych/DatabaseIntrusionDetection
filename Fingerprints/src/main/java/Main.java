@@ -9,13 +9,16 @@ import java.util.Set;
 
 public class Main {
 
-    private static final String QUERY_FILE = "queries.txt";
+    private static final String QUERY_FILE = "queriesSingle.txt";
+    private static final String TEST_FILE = "queriesSingle_additionalColumn.txt";
     private static List<Node> startNodes = new ArrayList<Node>();
-    private static Set<String> roles = new HashSet<String>();
+    private static List<Node> startTestNodes = new ArrayList<Node>();
 
     public static void main(String[] args) {
         try {
             readQueriesFromFile();
+            prepareTestNodes();
+            test();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -30,8 +33,6 @@ public class Main {
         String query;
         while((query = br.readLine()) != null) {
             Fingerprint fingerprint = new Fingerprint(query);
-            if(roles.contains(fingerprint.role))
-                continue;
 
             if(previousNode == null) {
                 previousNode = new Node(fingerprint);
@@ -39,7 +40,6 @@ public class Main {
                 startNodes.add(previousNode);
             }
             else if(!previousNode.getRole().equals(fingerprint.role)){
-                roles.add(previousNode.getRole());
                 previousNode = new Node(fingerprint);
                 previousNode.setStart();
                 startNodes.add(previousNode);
@@ -48,6 +48,65 @@ public class Main {
                 Node node = new Node(fingerprint);
                 previousNode.setNext(node);
                 previousNode = node;
+            }
+        }
+    }
+
+    private static void prepareTestNodes() throws IOException {
+        Node previousNode = null;
+        File file = new File(TEST_FILE);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String query;
+        while((query = br.readLine()) != null) {
+            Fingerprint fingerprint = new Fingerprint(query);
+
+            if(previousNode == null) {
+                previousNode = new Node(fingerprint);
+                previousNode.setStart();
+                startTestNodes.add(previousNode);
+            }
+            else if(!previousNode.getRole().equals(fingerprint.role)){
+                previousNode = new Node(fingerprint);
+                previousNode.setStart();
+                startTestNodes.add(previousNode);
+            }
+            else{
+                Node node = new Node(fingerprint);
+                previousNode.setNext(node);
+                previousNode = node;
+            }
+        }
+    }
+
+    private static void test(){
+        for(Node node : startNodes){
+            for(Node testNode : startTestNodes) {
+                if (node.getRole().equals(testNode.getRole())) {
+                    Node newNode = node;
+                    Node newTestNode = testNode;
+                    boolean good = true;
+                    while(true){
+                        if(newNode.getFingerprint().getPattern().pattern().equals(newTestNode.getFingerprint().getPattern())
+                                && newNode.getNext() != null && newTestNode.getNext() != null){
+                            newNode = newNode.getNext();
+                            newTestNode = newTestNode.getNext();
+                        }
+                        else if(newNode.getFingerprint().getPattern().pattern().equals(newTestNode.getFingerprint().getPattern())
+                                && (newNode.getNext() == null || newTestNode.getNext() == null)){
+                            System.out.println("Rola " + newNode.getRole() + " brak zapytania");
+                            good = false;
+                            break;
+                        }
+                        else if(!newNode.getFingerprint().getPattern().pattern().equals(newTestNode.getFingerprint().getPattern())){
+                            System.out.println("Rola " + newNode.getRole() + " różnica " + newNode.getFingerprint().getPattern().pattern() + " " + newTestNode.getFingerprint().getPattern());
+                            good = false;
+                            break;
+                        }
+                    }
+                    if(good){
+                        System.out.println("Rola " + node.getRole() + " poprawne");
+                    }
+                }
             }
         }
     }

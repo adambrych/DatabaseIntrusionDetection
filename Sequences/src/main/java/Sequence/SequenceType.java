@@ -2,5 +2,6 @@ package Sequence;
 
 public enum SequenceType {
     READ,
-    WRITE;
+    WRITE,
+    READ_ONLY;
 }

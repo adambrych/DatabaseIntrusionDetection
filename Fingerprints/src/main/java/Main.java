@@ -102,6 +102,8 @@ public class Main {
                             good = false;
                             break;
                         }
+                        else
+                            break;
                     }
                     if(good){
                         System.out.println("Rola " + node.getRole() + " poprawne");

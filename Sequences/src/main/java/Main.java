@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Sequence.*;
+import Sequence.impl.ReadOnlySequence;
 import Sequence.impl.ReadSequence;
 import Sequence.impl.WriteSequence;
 import operation.Operation;
@@ -14,6 +15,7 @@ import operation.impl.Write;
 public class Main {
 
     private static final String QUERY_FILE = "queriesSingle.txt";
+    private static final String QUERY_FILE_TEST = "queriesSingle_selectAll.txt";
     private static final String SELECT = "SELECT";
     private static final String UPDATE = "UPDATE";
     private static final String INSERT = "INSERT";
@@ -21,7 +23,9 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            readQueriesFromFile();
+            List<RWSequences> rwSequences = readQueriesFromFile(QUERY_FILE);
+            List<RWSequences> rwSequencesTest = readQueriesFromFile(QUERY_FILE_TEST);
+            test(rwSequences, rwSequencesTest);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -29,9 +33,9 @@ public class Main {
         }
     }
 
-    private static void readQueriesFromFile() throws IOException {
+    private static List<RWSequences> readQueriesFromFile(String fileName) throws IOException {
 
-        File file = new File(QUERY_FILE);
+        File file = new File(fileName);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String query;
         String lastRole = "";
@@ -53,7 +57,7 @@ public class Main {
             lastRole = role;
         }
         writeToFile(transactions);
-        prepareReadAndWriteSequnces(transactions);
+        return prepareReadAndWriteSequnces(transactions);
     }
 
     private static Transaction prepareTransaction(Transaction lastTransaction, String lastRole, String role, List<Transaction> transactions){
@@ -281,9 +285,11 @@ public class Main {
         writer.close();
     }
 
-    private static RWSequences prepareReadAndWriteSequnces(List<Transaction> transactions){
-        RWSequences rwSequences = new RWSequences();
+    private static List<RWSequences> prepareReadAndWriteSequnces(List<Transaction> transactions){
+        List<RWSequences> rwSequencesList = new ArrayList<RWSequences>();
         for(Transaction transaction : transactions){
+            RWSequences rwSequences = new RWSequences();
+            rwSequences.setRole(transaction.getRole());
             List<Operation> readColumn = new ArrayList<Operation>();
             List<Operation> writeColumn = new ArrayList<Operation>();
             for(Operation operation: transaction.getJoinedList()){
@@ -305,8 +311,17 @@ public class Main {
                     }
                 }
             }
+            if(rwSequences.getSequences().size() == 0) {
+                ReadOnlySequence readOnlySequence = new ReadOnlySequence();
+                readOnlySequence.getSequence().addAll(readColumn);
+                rwSequences.getSequences().add(readOnlySequence);
+                rwSequencesList.add(rwSequences);
+            }
+            else{
+                rwSequencesList.add(rwSequences);
+            }
         }
-        return rwSequences;
+        return rwSequencesList;
     }
 
     private static String[] joinString(String[] splitedQuery){
@@ -328,4 +343,90 @@ public class Main {
         String[] array = Arrays.copyOf(newSplitedQuery.toArray(), newSplitedQuery.size(), String[].class);
         return array ;
     }
+
+    private static void test(List<RWSequences> originalSequences, List<RWSequences> testSequences){
+        for(RWSequences original : originalSequences) {
+            for (RWSequences test : testSequences) {
+                if (original.getRole().equals(test.getRole())) {
+                    if(test.getSequences().get(0).getSequenceType().equals(SequenceType.READ_ONLY))
+                        readOnlyCompare(original, test);
+                    else
+                        compare(original, test);
+
+                }
+            }
+        }
+    }
+
+    private static void readOnlyCompare(RWSequences original, RWSequences test){
+        Sequence originalSequence = original.getSequences().get(0);
+        Sequence testSequence = test.getSequences().get(0);
+
+        int previeusIndex = -1;
+        for(Operation testOperation : testSequence.getSequence()){
+            int index = 0;
+            boolean operationFound = false;
+            for(Operation originalOperation : originalSequence.getSequence()){
+                if(testOperation.getColumn().equals(originalOperation.getColumn())) {
+                    operationFound = true;
+                    break;
+                }
+                index++;
+            }
+            if(!operationFound){
+                System.out.println(original.getRole() + " " +  testOperation.getType() + " " + testOperation.getColumn() + " operacja nie znaleziona");
+                break;
+            }
+            if(previeusIndex < index)
+                previeusIndex = index;
+            else {
+                System.out.println(original.getRole() + " " +  testOperation.getType() + " " + testOperation.getColumn() + " operacja wystąpiła za wcześnie");
+                break;
+            }
+        }
+    }
+
+    private static void compare(RWSequences original, RWSequences test){
+        int previeusIndex = -1;
+        int sequence = 0;
+        for(Sequence sequenceTest : test.getSequences()) {
+            boolean compare = false;
+            int index = 0;
+            for (Sequence sequenceOriginal : original.getSequences()) {
+                compare = compareSequence(sequenceOriginal, sequenceTest);
+                if(compare)
+                    break;
+                index++;
+            }
+            if(!compare){
+                System.out.println(original.getRole() +  " sekwencja " + Integer.toString(sequence) + " nie znaleziona");
+                break;
+            }
+            if(previeusIndex < index)
+                previeusIndex = index;
+            else {
+                System.out.println(original.getRole()  + " operacja " + Integer.toString(sequence) + " wystąpiła za wcześnie");
+                break;
+            }
+            sequence++;
+        }
+    }
+
+    private static boolean compareSequence(Sequence sequenceOriginal, Sequence sequenceTest){
+        boolean compare = true;
+        if(sequenceTest.getSequence().size() == sequenceOriginal.getSequence().size()){
+            for(int i=0; i<sequenceTest.getSequence().size(); i++){
+                Operation operationTest = sequenceTest.getSequence().get(i);
+                Operation operationOriginal = sequenceOriginal.getSequence().get(i);
+                if(!(operationTest.getType().equals(operationOriginal.getType()) && operationTest.getColumn().equals(operationOriginal.getColumn()))){
+                    compare = false;
+                    break;
+                }
+            }
+        }
+        else
+            compare = false;
+        return compare;
+    }
+
 }

@@ -1,4 +1,4 @@
-1,select B_NAME, sum(TR_QTY * TR_BID_PRICE) from TRADE_REQUEST, SECTOR, INDUSTRY COMPANY, BROKER, SECURITY where TR_B_ID = B_ID and TR_S_SYMB = S_SYMB and S_CO_ID = CO_ID and CO_IN_ID = IN_ID and SC_ID = IN_SC_ID and SC_NAME = "Capital Goods" group by B_NAME order by 2 DESC
+1,select * from TRADE_REQUEST, SECTOR, INDUSTRY COMPANY, BROKER, SECURITY where TR_B_ID = B_ID and TR_S_SYMB = S_SYMB and S_CO_ID = CO_ID and CO_IN_ID = IN_ID and SC_ID = IN_SC_ID and SC_NAME = "Capital Goods" group by B_NAME order by 2 DESC
 2,select * from CUSTOMER where C_TAX_ID = "201OB6098XH587"
 2,select * from CUSTOMER where C_ID = 4300002882
 2,select CA_ID, CA_BAL, SUM(HS_QTY * LT_PRICE) from CUSTOMER_ACCOUNT HOLDING_SUMMARY on HS_CA_ID = CA_ID, LAST_TRADE where CA_C_ID = 4300004250 and LT_S_SYMB = HS_S_SYMB group by CA_ID, CA_BAL order by 3 asc
